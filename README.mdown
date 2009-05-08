@@ -1,0 +1,57 @@
+WebIRC
+======
+WebIRC is a Sinatra based IRC application, the IRC connection is maintained
+server-side, and the client is simulated on a web browser using Javascript and
+JSON.
+
+Why?
+----
+It is fairly pointless when you consider that irssi and screen have been
+around for years, but that assumes you can start a secure shell from
+anywhere, whereas standards compliant web browsers are fairly ubiquitous.
+
+Installing
+----------
+WebIRC is a collection of Ruby scripts, so a Ruby interpreter is required
+(tested with 1.8.6), and the following gems:
+
+ * sinatra @ <http://github.com/bmizerany/sinatra/tree/work>
+ * json @ <http://json.rubyforge.org/index.html>
+ 
+To install the ruby-gems type `sudo gem install ≪gem name≫` at the shell
+prompt.
+
+Starting
+--------
+At the command prompt:
+
+  $ ruby webserver.rb
+  
+The WebIRC interface should now be available at <http://localhost:4567/>
+
+The switch `-p ≪port number≫` can be used to specify a port number to bind to.
+
+See the [Rack documentation](http://rack.rubyforge.org/doc/) for details on
+how to connect a web server to the Rack interface.
+
+Questions?
+----------
+### Why doesn't this appear to work with Internet Explorer?
+I've not tested it, but I'm going to assume it doesn't work anyway. My advice
+would be to use a different browser if possible, my personal choice would be
+a webkit-based alternative, such as Safari or Chrome.
+
+Contact
+-------
+Send bugs and general correspondence to <mailto:andy.herbert@gmail.com>
+
+Credits
+-------
+Several Javascript frameworks are used on the client side:
+
+ * Prototype library @ <http://www.prototypejs.org/>
+ * Lalit Patel's JSON cookies @ <http://www.lalit.org/lab/jsoncookies>
+
+Licence
+-------
+Copyright © 2009 Andrew Herbert. See MIT-LICENSE.txt in this directory.

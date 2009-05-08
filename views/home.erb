@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>WebIRC</title>
+  <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen" charset="utf-8">
+  <script src="javascript/prototype.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascript/cookie.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascript/date.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascript/ajax.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascript/script.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body onload="init()">
+  <div>
+    <div class="table header lucidia regular">
+      <div class="row">
+        <!-- <div class="cell sidebar"> -->
+        <!-- </div> -->
+        <div class="cell">
+          <div id="title_text" class="">
+            Web IRC
+          </div>
+        </div>
+        <!-- <div class="cell sidebar clickable with_hover"> -->
+          <!-- Preferences... -->
+        <!-- </div> -->
+      </div>
+    </div>
+    <div class="table info">
+      <div class="row info_gap"></div>
+      <div class="row">
+        <div class="topic_sidebar"></div>
+        <div id="topic" class="cell lucidia small">
+          Create a new connection
+        </div>
+        <div class="topic_sidebar"></div>
+      </div>
+      <div class="row info_gap"></div>
+    </div>
+    <div class="table">
+      <div class="row">
+        <div class="cell sidebar connections">
+          <div id="connections" class="sidebar scrollable lucidia regular">
+            <div onclick="change_to()" class="clickable header add_server with_hover">Connect to server...</div>
+          </div>
+        </div>
+        <div class="cell activity_container">
+          <div id="new_connection" class="lucidia regular scrollable">
+            <div class="ui_header">Connect to Server</div>
+            <form id="new_connection_form" onsubmit="new_connection(); return false;" action="" accept-charset="utf-8">
+              <div class="field_element">
+                <div class="field_name">IRC server:</div>
+                <div class="field_container">
+                  <input class="lucidia regular field_entry" type="text" name="" value="irc.quakenet.org" id="server_name">
+                </div>
+              </div>
+              <div class="field_element">
+                <div class="field_name">IRC server port:</div>
+                <div class="field_container">
+                  <input class="lucidia regular field_entry narrow" type="text" name="" value="6667" id="server_port">
+                </div>
+              </div>
+              <div class="field_element">
+                <div class="field_name">Nickname:</div>
+                <div class="field_container">
+                  <input class="lucidia regular field_entry" type="text" name="" value="<%=@default_nickname or ac_nick = "AC#{"%03d" % rand(1000)}"%>" id="nickname">
+                </div>
+              </div>
+              <div class="field_element">
+                <div class="field_name">Username:</div>
+                <div class="field_container">
+                  <input class="lucidia regular field_entry" type="text" name="" value="<%=@default_user_name or ac_nick%>" id="user_name">
+                </div>
+              </div>
+              <div class="field_element">
+                <div class="field_name">Real name:</div>
+                <div class="field_container">
+                  <input class="lucidia regular field_entry" type="text" name="" value="<%=@default_real_name or "Anonymous Coward"%>" id="real_name">
+                </div>
+              </div>
+              <div class="field_element">
+                <div class="field_name">Server password:</div>
+                <div class="field_container">
+                  <input class="lucidia regular field_entry" type="password" name="" value="" id="password">
+                </div>
+              </div>
+            </form>
+            <div class="clickable header connect_button with_hover" onclick="new_connection()">
+              Connect
+            </div>
+          </div>
+          <div id="activity" class="scrollable lucidia regular hide"></div>
+        </div>
+        <div class="cell">
+          <div id="users" class="sidebar users scrollable lucidia regular">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="table info lucidia small">
+      <div class="row info_gap"></div>
+      <div class="row">
+        <div class="cell sidebar">
+          <div id="connections_info" class="hide">
+            
+          </div>
+        </div>
+        <div class="cell">
+          <div id="activity_info" class="">
+            
+          </div>
+        </div>
+        <div class="cell sidebar user_width">
+          <div id="user_count" class="hide">
+            
+          </div>
+        </div>
+      </div>
+      <div class="row info_gap"></div>
+    </div>
+    <div class="table footer">
+      <div class="row">
+        <div class="cell sidebar"></div>
+        <div class="cell input_gap"></div>
+        <div class="cell">
+          <form id="input" onsubmit="send_msg(msg.value); msg.value = ''; return false;" action="" accept-charset="utf-8">
+            <div id="input_container">
+              <input class="lucidia regular" onkeydown="return detect_keypress(event)" type="text" value="" id="msg" maxlength="256">
+            </div>
+          </form>
+        </div>
+        <div class="cell input_gap right hide">
+          <div class="lucidia tiny clickable header upload_button with_hover">
+            Host file...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="shadow"></div>
+  <div id="reference" class="lucidia regular hide">
+    <div class="title">
+      Quick Reference
+    </div>
+    <div class="table">
+      <div class="row shortcut_entity">
+        <div class="cell title">
+          Complete nickname:
+        </div>
+        <div class="cell">
+          <div class="key">&#x21E5;</div>
+        </div>
+        <div class="cell title">
+          Browse input history:
+        </div>
+        <div class="cell">
+          <div class="key">&#x2191;</div>
+          <div class="operator">or</div>
+          <div class="key">&#x2193;</div>
+        </div>
+      </div>
+      <div class="row shortcut_entity">
+        <div class="cell title">
+          Move to the next unread channel:
+        </div>
+        <div class="cell">
+          <div class="key">ctrl</div>
+          <div class="operator">+</div>
+          <div class="key">&#x21E5;</div>
+        </div>
+        <div class="cell title">
+          Move back to the previously selected channel:
+        </div>
+        <div class="cell">
+          <div class="key">ctrl</div>
+          <div class="operator">+</div>
+          <div class="key">&#x232B;</div>
+        </div>
+      </div>
+      <div class="row shortcut_entity">
+        <div class="cell title">
+          Move to the previous/next channel:
+        </div>
+        <div class="cell">
+          <div class="key">ctrl</div>
+          <div class="operator">+</div>
+          <div class="key">&#x2191;</div>
+          <div class="operator">or</div>
+          <div class="key">&#x2193;</div>
+        </div>
+        <div class="cell title">
+          Move to the previous/next server:
+        </div>
+        <div class="cell">
+          <div class="key">ctrl</div>
+          <div class="operator">+</div>
+          <div class="key">&#x2190;</div>
+          <div class="operator">or</div>
+          <div class="key">&#x2192;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
