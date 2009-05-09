@@ -31,6 +31,14 @@ const CLIENT_ERROR      = "!"
 const MODE              = "m"
 const CTCP              = "c"
 
+window.onresize = function() {
+  update_activity_width()
+}
+
+function update_activity_width() {
+  $("activity").style.width = document.body.offsetWidth - 395 + "px"
+}
+
 function init() {
   var stored_bookmarks = jar.get("bookmarks")
   if (stored_bookmarks) {
@@ -40,6 +48,7 @@ function init() {
   request = get("all", first_time_irc_handler)
   $("server_name").focus()
   setInterval("update_request()", 10000)
+  update_activity_width()
 }
 
 function send_msg(text) {
