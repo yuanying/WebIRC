@@ -3,7 +3,16 @@ var connections = new Object()
 var last_read = new Object()
 var current = new Object()
 var bookmarks = new Object()
-var jar = new CookieJar({expires: 10080, path: "/"});
+var jar = new CookieJar({expires:10080, path:"/"});
+var input_history = new Object()
+input_history["data"] = new Array()
+input_history["position"] = -1
+var tab_completion = new Object()
+tab_completion["repeat"] = false
+tab_completion["search_term"] = null
+tab_completion["user_lookup"] = new Array()
+tab_completion["response"] = false
+tab_completion["last_match"] = 0
 
 const PRIVMSG           = "p"
 const ACTION            = "a"
@@ -34,10 +43,34 @@ function init() {
 }
 
 function send_msg(text) {
+  input_history.data[input_history.data.length] = text
+  input_history.position = input_history.data.length
   if (text.indexOf("/") == 0) {
     var command = double_arg(text)
     if (command) {
       input_command(command.first.toUpperCase(), command.remainder)
+    } else {
+      if (current.connection_id) {
+        switch (text.toUpperCase()) {
+          case "/PART":
+          if (current.target) {
+            part_request(current.connection_id, current.target)
+          }
+          break
+          case "/QUIT":
+          close_request(current.connection_id, null)
+          break
+          case "/CLOSE":
+          if (current.target && connections[current.connection_id].targets[current.target]) {
+            if (connections[current.connection_id].targets[current.target].is_channel) {
+              part_request(current.connection_id, current.target)
+            } else {
+              close_request(current.connection_id, current.target)
+            }
+          }
+          break
+        }
+      }
     }
   } else {
     send_privmsg(text, false)
@@ -89,6 +122,53 @@ function input_command(cmd, param) {
         local_error("Usage is: /notice ≪user≫ ≪text≫")
       }
       break
+      case "/JOIN":
+      join_request(current.connection_id, param)
+      break
+      case "/PART":
+      part_request(current.connection_id, param)
+      break
+      case "/WHOIS":
+      whois_user(current.connection_id, param)
+      break
+      case "/TOPIC":
+      command_channel_check("TOPIC " + current.target + " :" + param, 1)
+      break
+      case "/OP":
+      current_channel_mode_change("+o", param)
+      break
+      case "/DEOP":
+      current_channel_mode_change("-o", param)
+      break
+      case "/VOICE":
+      current_channel_mode_change("+v", param)
+      break
+      case "/DEVOICE":
+      current_channel_mode_change("-v", param)
+      break
+      case "/USER":
+      click_on_user(current.connection_id, param)
+      break
+      case "/MODE":
+      var command = double_arg(param)
+      if (command) {
+        current_channel_mode_change(command.first, command.remainder)
+      } else {
+        current_channel_mode_change(param, "")
+      }
+      break
+    }
+  }
+}
+
+function current_channel_mode_change(mode, param) {
+  command_channel_check("MODE " + current.target + " " + mode + " :" + param, 2)
+}
+
+function command_channel_check(command, wait) {
+  if (current.connection_id && current.target && connections[current.connection_id] && connections[current.connection_id].targets[current.target]) {
+    if (connections[current.connection_id].targets[current.target].is_channel) {
+      command_request(current.connection_id, command, wait)
     }
   }
 }
@@ -109,8 +189,186 @@ function double_arg(text) {
   }
 }
 
+const LEFT_CURSOR = 37
+const UP_CURSOR = 38
+const RIGHT_CURSOR = 39
+const DOWN_CURSOR = 40
+const DELETE = 8
+const TAB = 9
+
 function detect_keypress(event) {
+  if (!event.ctrlKey && event.which == TAB) {
+    if ((tab_completion.repeat && tab_completion.response) || $("msg").value.match(/^\S+$/)) {
+      tab_completion.response = true
+    } else {
+      tab_completion.response = false
+    }
+    if (tab_completion.response) {
+      $("msg").value = complete_nick()
+    } else {
+      $("msg").value = $("msg").value.gsub(/(\S+)$/, function(match) {return complete_nick()})
+    }
+    return false
+  } else {
+    tab_completion.repeat = false
+  }
+  if (event.ctrlKey) {
+    switch (event.which) {
+      case LEFT_CURSOR:
+      goto_prev_server()
+      return false
+      break
+      case UP_CURSOR:
+      goto_prev_target()
+      return false
+      break
+      case RIGHT_CURSOR:
+      goto_next_server()
+      return false
+      break
+      case DOWN_CURSOR:
+      goto_next_target()
+      return false
+      break
+      case DELETE:
+      change_to(current.connection_id, null)
+      return false
+      break
+    }
+  } else {
+    switch (event.which) {
+      case UP_CURSOR:
+      prev_history()
+      return false
+      break
+      case DOWN_CURSOR:
+      next_history()
+      return false
+      break
+    }
+  }
   return true
+}
+
+function goto_prev_server() {
+  var new_connection_id = move_in_element(current.connection_id, connections, -1)
+  change_to(new_connection_id, null)
+}
+
+function goto_prev_target() {
+  var new_target = move_in_element(current.target, connections[current.connection_id].targets, -1)
+  change_to(current.connection_id, new_target)
+}
+
+function goto_next_server() {
+  var new_connection_id = move_in_element(current.connection_id, connections, 1)
+  change_to(new_connection_id, null)
+}
+
+function goto_next_target() {
+  var new_target = move_in_element(current.target, connections[current.connection_id].targets, 1)
+  change_to(current.connection_id, new_target)
+}
+
+function complete_nick() {
+  if (tab_completion.repeat) {
+    var match = tab_complete_lookup(tab_completion.last_match + 1)
+    if (match) {
+      if (tab_completion.response) {
+        return match + ": "
+      } else {
+        return match
+      }
+    } else {
+      tab_completion.repeat = false
+      return tab_completion.search_term
+    }
+  } else {
+    var search_term = $("msg").value.match(/(\S+)$/)
+    if (search_term) {
+      tab_completion.user_lookup = combined_users(current.connection_id, current.target)
+      tab_completion.search_term = search_term[1].toLowerCase()
+      tab_completion.repeat = true
+      var match = tab_complete_lookup(0)
+      if (match) {
+        if (tab_completion.response) {
+          return match + ": "
+        } else {
+          return match
+        }
+      } else {
+        tab_completion.repeat = false
+        return tab_completion.search_term
+      }
+    }
+  }
+}
+
+function tab_complete_lookup(from) {
+  for (var i = from; i < tab_completion.user_lookup.length; i++) {
+    if (tab_completion.user_lookup[i].toLowerCase().indexOf(tab_completion.search_term) == 0) {
+      tab_completion.last_match = i
+      return tab_completion.user_lookup[i]
+    }
+  }
+  return null
+}
+
+function combined_users(connection_id, target) {
+  if (connections[connection_id].targets[target] && connections[connection_id].targets[target].is_channel) {
+    return connections[connection_id].targets[target].opers.concat(connections[connection_id].targets[target].voicers, connections[connection_id].targets[target].users)
+  }
+  return new Array()
+}
+
+function prev_history() {
+  input_history.position = Math.max(input_history.position - 1, 0)
+  if (input_history.data[input_history.position]) {
+    $("msg").value = input_history.data[input_history.position]
+  }
+}
+
+function next_history() {
+  input_history.position = Math.min(input_history.position + 1, input_history.data.length)
+  if (input_history.data[input_history.position]) {
+    $("msg").value = input_history.data[input_history.position]
+  } else {
+    $("msg").value = ""
+  }
+}
+
+function build_array(parent) {
+  var element_array = new Array()
+  for (element in parent) {
+    if (parent[element]) {
+      element_array[element_array.length] = element
+    }
+  }
+  return element_array
+}
+
+function move_in_array(reference, array_of_items, position) {
+  if (reference) {
+    var current_location = array_of_items.indexOf(reference)
+    if (current_location != -1) {
+      var new_position = current_location + position
+      if (new_position >= array_of_items.length) {
+        return array_of_items[new_position - array_of_items.length]
+      } else if (new_position < 0) {
+        return array_of_items[new_position + array_of_items.length]
+      } else {
+        return array_of_items[new_position]
+      }
+    } else {
+      return null
+    }
+  } else {
+    return array_of_items[0]
+  }
+}
+
+function move_in_element(reference, element, position) {
+  return move_in_array(reference, build_array(element), position)
 }
 
 function create_target_element(connection_id, target_name, is_channel) {
@@ -197,6 +455,7 @@ function change_to(connection_id, target) {
   } else {
     hide("new_connection")
     show("activity")
+    show("msg")
   }
   if (connection_id) {
     $("activity").appendChild(div_activity(connection_id, target))
@@ -209,6 +468,7 @@ function change_to(connection_id, target) {
     show("new_connection")
     hide("activity")
     $("server_name").focus()
+    hide("msg")
   }
   update_title(connection_id, target)
   update_topic(connection_id, target)
@@ -362,15 +622,6 @@ function irc_handler(event, first_time) {
     var response = request_to_json()
     process_history(response.history, !first_time)
     if (response.sync) {process_sync(response.sync)}
-  }
-}
-
-function process_users(users) {
-  for (var connection_id in users) {
-    for (var channel in users[connection_id]) {
-      user_lists[connection_id] = new Object()
-      user_lists[connection_id][channel] = users[connection_id][channel]
-    }
   }
 }
 
@@ -865,7 +1116,7 @@ function irc_privmsg(connection_id, channel, user, msg) {
 }
 
 function linkify(element) {
-  element.innerHTML = element.innerHTML.gsub(/(http:\/\/([A-z0-9.\/?=+-:]|&amp;)+)/, function(match){return "<a href=\"" + match[1] + "\" target=\"_blank\">" + match[1] + "</a>"})
+  element.innerHTML = element.innerHTML.gsub(/(http:\/\/([A-z0-9.\/?=+-:%]|&amp;)+)/, function(match){return "<a href=\"" + match[1] + "\" target=\"_blank\">" + match[1] + "</a>"})
   return element
 }
 
