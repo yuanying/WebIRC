@@ -36,7 +36,11 @@ window.onresize = function() {
 }
 
 function update_activity_width() {
-  $("activity").style.width = document.body.offsetWidth - 395 + "px"
+  if (current.target && connections[current.connection_id].targets[current.target].is_channel) {
+    $("activity").style.width = document.body.offsetWidth - 397 + "px"
+  } else {
+    $("activity").style.width = document.body.offsetWidth - 227 + "px"
+  }
 }
 
 function init() {
@@ -485,6 +489,7 @@ function change_to(connection_id, target) {
   update_activity(connection_id, target)
   current["connection_id"] = connection_id
   current["target"] = target
+  update_activity_width()
   jar.put("current", current)
 }
 
