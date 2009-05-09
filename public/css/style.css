@@ -60,7 +60,7 @@ div.header {
 }
 
 div.footer {
-  height: 21px;
+  height: 33px;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAcCAAAAACFNooQAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGElEQVQI12PYx/QfCv+BMYxE0MjiMLX/AQPbG8178ABYAAAAAElFTkSuQmCC");
   background-repeat: repeat-x;
   background-color: rgb(150, 150, 150);
@@ -217,10 +217,12 @@ div.footer form#input div#input_container {
 }
 
 div.footer form#input div#input_container input#msg {
+  display: none;
   border: 1px solid #555;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   width: 100%;
+  height: 18px;
   padding: 2px;
   margin: 4px;
 }
@@ -397,7 +399,7 @@ div#activity span.conversation {
 
 div#reference {
   padding: 4px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 div#reference div.title {

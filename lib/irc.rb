@@ -111,12 +111,16 @@ class IRC
   
   def join(raw)
     send("JOIN #{raw}")
-    raw.scan(/^(\S+)(?:\s(\S+))?/) {|channel, params| @joined_channels[channel.downcase] = raw}
+    raw.scan(/^(\S+)(?:\s(\S+))?/) do |channel, key|
+      @joined_channels[channel.downcase] = raw
+    end
   end
   
-  def part(channel)
-    send("PART #{channel}")
-    @joined_channels.delete(channel.downcase)
+  def part(raw)
+    raw.scan(/^(\S+)(?:\s(.+))?/) do |channel, msg|
+      send("PART #{channel} :#{params}")
+      @joined_channels.delete(channel.downcase)
+    end
   end
   
   def privmsg(target, text, action)
