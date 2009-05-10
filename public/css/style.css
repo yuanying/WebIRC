@@ -59,6 +59,22 @@ div.header {
   padding: 2px 0px;
 }
 
+div.header div.github_link {
+  text-align: right;
+  vertical-align: middle;
+  padding-right: 12px;
+}
+
+div.header div.github_link a {
+  color: black;
+  text-decoration: none;
+  text-shadow: white 0px 1px 1px;
+}
+
+div.header div.github_link a:hover {
+  text-decoration: underline;
+}
+
 div.footer {
   height: 33px;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAcCAAAAACFNooQAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGElEQVQI12PYx/QfCv+BMYxE0MjiMLX/AQPbG8178ABYAAAAAElFTkSuQmCC");
@@ -247,6 +263,11 @@ div.footer div.footer_nick_prompt {
 
 div.sidebar.users {
   background-color: rgb(223, 225, 227);
+  width: 180px;
+}
+
+div.info div#user_count {
+  text-align: right;
   width: 180px;
 }
 
