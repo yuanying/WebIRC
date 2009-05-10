@@ -1142,8 +1142,16 @@ function irc_privmsg(connection_id, channel, user, msg) {
   add_activity(connection_id, channel, linkify(create_activity_span(nick_color(connection_id, user), user + ":", "conversation", msg)))
 }
 
+function add_link(text) {
+  if (text.match(/^www\./i)) {
+    return "<a href=\"http://" + text + "\" target=\"_blank\">" + text + "</a>"
+  } else {
+    return "<a href=\"" + text + "\" target=\"_blank\">" + text + "</a>"
+  }
+}
+
 function linkify(element) {
-  element.innerHTML = element.innerHTML.gsub(/(http:\/\/([A-z0-9.\/?=+-:%]|&amp;)+)/, function(match){return "<a href=\"" + match[1] + "\" target=\"_blank\">" + match[1] + "</a>"})
+  element.innerHTML = element.innerHTML.gsub(/((http:\/\/|www\.)([A-z0-9.\/?=+-:%]|&amp;)+)/i, function(match){return add_link(match[1])})
   return element
 }
 
