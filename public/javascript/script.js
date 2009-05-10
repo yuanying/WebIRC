@@ -89,12 +89,18 @@ function send_msg(text) {
           case "/MOTD":
           command_request(current.connection_id, "MOTD", 1)
           break
+          default:
+          unknown_command()
         }
       }
     }
   } else {
     send_privmsg(text, false)
   }
+}
+
+function unknown_command() {
+  local_error("Unknown command")
 }
 
 function send_privmsg(text, action) {
@@ -180,6 +186,8 @@ function input_command(cmd, param) {
       case "/RAW":
       command_request(current.connection_id, param, 1)
       break
+      default:
+      unknown_command()
     }
   }
 }
