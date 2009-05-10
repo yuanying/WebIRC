@@ -1148,7 +1148,9 @@ function linkify(element) {
 }
 
 function irc_action(connection_id, channel, user, msg) {
-  add_activity(connection_id, channel, create_activity_span(nick_color(connection_id, user), " * " + user + " " + msg))
+  var span_action = create_activity_span(nick_color(connection_id, user), " * " + user + " " + msg)
+  linkify(span_action)
+  add_activity(connection_id, channel, span_action)
 }
 
 function irc_notice(connection_id, channel, user, msg) {
