@@ -568,6 +568,7 @@ function update_topic(connection_id, target) {
     } else {
       if (connections[connection_id].targets[target].topic) {
         $("topic").textContent = target + " - " + connections[connection_id].targets[target].topic + topic_appendix(connections[connection_id].targets[target].topic_creator, connections[connection_id].targets[target].topic_creation_time)
+        linkify($("topic"))
       } else {
         $("topic").textContent = target
       }

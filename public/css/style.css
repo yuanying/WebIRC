@@ -82,6 +82,16 @@ div.info div.info_gap {
   height: 4px;
 }
 
+div #topic a {
+  color: white;
+  text-decoration: none;
+}
+
+div #topic a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
 div.info div.topic_sidebar {
   width: 30px;
 }
