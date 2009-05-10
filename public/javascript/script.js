@@ -101,6 +101,9 @@ function send_msg(text) {
           case "/INFO":
           command_request(current.connection_id, "INFO", 1)
           break
+          case "/AWAY":
+          command_request(current.connection_id, "AWAY", 1)
+          break
           default:
           unknown_command()
         }
@@ -223,6 +226,9 @@ function input_command(cmd, param) {
       break
       case "/INFO":
       command_request(current.connection_id, "INFO " + param, 1)
+      break
+      case "/AWAY":
+      command_request(current.connection_id, "AWAY " + param, 1)
       break
       case "/RAW":
       command_request(current.connection_id, param, 1)
