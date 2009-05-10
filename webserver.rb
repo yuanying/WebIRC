@@ -110,6 +110,14 @@ post "/new_window" do
   get_update(command)
 end
 
+post "/command" do
+  content_type :json
+  command = json_request(request)
+  @@connections[command["connection_id"]].send(command["command"]) if @@connections.has?(command["connection_id"])
+  sleep command["wait"] if command["wait"]
+  get_update(command)
+end
+
 get "/all" do
   content_type :json
   {:history => get_history({})}.to_json
@@ -118,14 +126,6 @@ end
 post "/update" do
   content_type :json
   get_update(JSON.parse(request.env["rack.input"].read))
-end
-
-post "/command" do
-  content_type :json
-  command = json_request(request)
-  @@connections[command["connection_id"]].send(command["command"]) if @@connections.has?(command["connection_id"])
-  sleep command["wait"] if command["wait"]
-  {:history => get_history(command["last_read"]), :sync => sync(command["sync"])}.to_json
 end
 
 get "/rss" do
