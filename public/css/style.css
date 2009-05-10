@@ -238,6 +238,13 @@ div.footer form#input div#input_container input#msg {
   margin: 4px;
 }
 
+div.footer div.footer_nick_prompt {
+  vertical-align: middle;
+  text-align: right;
+  color: black;
+  text-shadow: #CCC 0px 1px 1px;
+}
+
 div.sidebar.users {
   background-color: rgb(223, 225, 227);
   width: 180px;

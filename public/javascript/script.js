@@ -657,8 +657,18 @@ function update_title(connection_id, target) {
     } else {
       set_title(connections[connection_id].server_name + ":" + connections[connection_id].server_port + ", " + connections[connection_id].nickname + " (" + connections[connection_id].real_name + ")")
     }
+    set_nick_prompt(connections[connection_id].nickname)
   } else {
     set_title("Web IRC")
+    set_nick_prompt()
+  }
+}
+
+function set_nick_prompt(text) {
+  if (text) {
+    $("nick_prompt").textContent = text + ":"
+  } else {
+    $("nick_prompt").textContent = ""
   }
 }
 
