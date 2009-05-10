@@ -4,9 +4,9 @@ require "digest/md5"
 class RSSFeed
   def initialize
     @items = Array.new
-    @master_doc = REXML::Document.new
-    @master_doc.add_element("rss", {"version" => 2.0})
-    channel = add_element(@master_doc.root, "channel")
+    @master = REXML::Document.new
+    @master.add_element("rss", {"version" => 2.0})
+    channel = add_element(@master.root, "channel")
     add_element(channel, "title", "WebIRC URI catcher")
     add_element(channel, "link", "http://github.com/andyherbert/WebIRC")
     add_element(channel, "description", "URIs caught by the WebIRC client")
@@ -28,12 +28,12 @@ class RSSFeed
     add_element(item, "author", author)
     add_element(item, "guid", Digest::MD5.hexdigest("#{link}:#{original_line}:#{author}:#{source}:#{now.to_i}"), false, {"isPermaLink" => "false"})
     @items << item
-    @items.delete_at(0) if @items.length > 2
+    @items.delete_at(0) if @items.length > 32
   end
   
   def to_s
-    new_feed = @master_doc.dup
+    new_feed = @master.dup
     @items.reverse.each {|item| new_feed.root << item}
-    new_feed.to_s
+    "<?xml version='1.0' encoding='UTF-8' ?>\n\n#{new_feed.to_s}"
   end
 end

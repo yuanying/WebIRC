@@ -130,5 +130,5 @@ end
 
 get "/rss" do
   content_type :rss
-  "<?xml version='1.0' encoding='UTF-8' ?>\n\n#{@@rss_feed.to_s}"
+  @@rss_feed.to_s
 end
