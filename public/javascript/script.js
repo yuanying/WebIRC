@@ -95,6 +95,12 @@ function send_msg(text) {
           case "/STATS":
           command_request(current.connection_id, "STATS", 1)
           break
+          case "/TIME":
+          command_request(current.connection_id, "TIME", 1)
+          break
+          case "/INFO":
+          command_request(current.connection_id, "INFO", 1)
+          break
           default:
           unknown_command()
         }
@@ -163,6 +169,9 @@ function input_command(cmd, param) {
       case "/WHOIS":
       whois_user(current.connection_id, param)
       break
+      case "/WHOWAS":
+      whowas_user(current.connection_id, param)
+      break
       case "/TOPIC":
       command_channel_check("TOPIC " + current.target + " :" + param, 1)
       break
@@ -208,6 +217,12 @@ function input_command(cmd, param) {
       break
       case "/STATS":
       command_request(current.connection_id, "STATS " + param, 1)
+      break
+      case "/TIME":
+      command_request(current.connection_id, "TIME " + param, 1)
+      break
+      case "/INFO":
+      command_request(current.connection_id, "INFO " + param, 1)
       break
       case "/RAW":
       command_request(current.connection_id, param, 1)
@@ -583,6 +598,11 @@ function click_on_user(connection_id, user) {
 
 function whois_user(connection_id, user) {
   command_request(connection_id, "WHOIS " + user, 1)
+  change_to(connection_id)
+}
+
+function whowas_user(connection_id, user) {
+  command_request(connection_id, "WHOWAS " + user, 1)
   change_to(connection_id)
 }
 
