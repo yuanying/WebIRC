@@ -652,11 +652,7 @@ function topic_appendix(creator, creation_time) {
 
 function update_title(connection_id, target) {
   if (connection_id) {
-    if (target) {
-      set_title(target + ", " + connections[connection_id].server_name + ":" + connections[connection_id].server_port + ", " + connections[connection_id].nickname + " (" + connections[connection_id].real_name + ")")
-    } else {
-      set_title(connections[connection_id].server_name + ":" + connections[connection_id].server_port + ", " + connections[connection_id].nickname + " (" + connections[connection_id].real_name + ")")
-    }
+    set_title(connections[connection_id].server_name + ":" + connections[connection_id].server_port + ", " + connections[connection_id].nickname + " (" + connections[connection_id].real_name + ")")
     set_nick_prompt(connections[connection_id].nickname)
   } else {
     set_title("Web IRC")
