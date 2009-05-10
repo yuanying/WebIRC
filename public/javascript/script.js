@@ -35,6 +35,10 @@ window.onresize = function() {
   update_activity_width()
 }
 
+window.onfocus = function() {
+  $("msg").focus()
+}
+
 function update_activity_width() {
   if (current.target && connections[current.connection_id].targets[current.target].is_channel) {
     $("activity").style.width = document.body.offsetWidth - 417 + "px"
