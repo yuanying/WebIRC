@@ -37,9 +37,9 @@ window.onresize = function() {
 
 function update_activity_width() {
   if (current.target && connections[current.connection_id].targets[current.target].is_channel) {
-    $("activity").style.width = document.body.offsetWidth - 397 + "px"
+    $("activity").style.width = document.body.offsetWidth - 417 + "px"
   } else {
-    $("activity").style.width = document.body.offsetWidth - 227 + "px"
+    $("activity").style.width = document.body.offsetWidth - 247 + "px"
   }
 }
 
@@ -690,7 +690,12 @@ function process_history(history, auto_open) {
       connections[connection_id].connection_count = history[connection_id].connection_count
       close_all_targets(connection_id)
     }
-    connections[connection_id].nickname = history[connection_id].nickname
+    if (connections[connection_id].nickname != history[connection_id].nickname) {
+      connections[connection_id].nickname = history[connection_id].nickname
+      if (current.connection_id = connection_id) {
+        update_title(connection_id, current.target)
+      }
+    }
     connections[connection_id].last_activity = history[connection_id].history.root_log.last_activity
     for (var n = 0; n < history[connection_id].history.root_log.data.length; n++) {
       var line = history[connection_id].history.root_log.data[n]

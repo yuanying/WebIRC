@@ -28,7 +28,7 @@ body {
 }
 
 div.sidebar {
-  width: 225px;
+  width: 235px;
 }
 
 .with_hover:hover {
@@ -230,7 +230,7 @@ div.footer form#input div#input_container input#msg {
 
 div.sidebar.users {
   background-color: rgb(223, 225, 227);
-  width: 170px;
+  width: 180px;
 }
 
 div#users div.user {
@@ -400,7 +400,6 @@ div#activity span.conversation {
 
 div#reference {
   padding: 4px;
-  margin-top: 10px;
 }
 
 div#reference div.title {
