@@ -21,7 +21,7 @@ class IRC
         sleep 300 # 5 minutes
         if @history.stoned?
           @connection_count += 1
-          @history.reconnection(:STONEDCONNECTION, "Connection appears to be disconnected, attempting reconnection")
+          @history.reconnection(:STONEDCONNECTION, "Connection appears to be stoned, attempting reconnection")
           disconnect
           connection_thread.exit
           break
