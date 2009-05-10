@@ -82,6 +82,9 @@ function send_msg(text) {
             }
           }
           break
+          case "/MOTD":
+          command_request(current.connection_id, "MOTD", 1)
+          break
         }
       }
     }
@@ -169,6 +172,9 @@ function input_command(cmd, param) {
       } else {
         current_channel_mode_change(param, "")
       }
+      break
+      case "/RAW":
+      command_request(current.connection_id, param, 1)
       break
     }
   }
