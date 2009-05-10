@@ -299,16 +299,16 @@ div#users div.user:hover span.user_menu:hover {
 }
 
 div#users div.user.op {
-  padding-left: 20px;
+  padding-left: 17px;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAMAAADXT/YiAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAeFBMVEUAAAAAgACAgACA/4A0mwA9pQpXviSI7FQzmQBLsRiP9VwzmQA6ngdiyC964Ec1mwJu1Ds0mQA5nwc7oQk/pw1EqhBFqxJIrhZKsRhNshlQtx1UuiJXvSNbwShdwytgxixjyC9myzJs0Thv1Dt23EJ64Ed/5k2G7FNc6ALDAAAAKHRSTlMAAgICT09PT4KCgoyMjIylpa2tra2tra2tra2tra2tra2tra2tra2tekIvaAAAAERJREFUCB0FwbENgEAMBEHEn+SMDui/OmJ4yd5lJsdKnbObrLph+vmSW9WrU6ho5UQHWJkRGDq7lcGdfi7Bd8LXtXqPPwAhPunbk4p/AAAAAElFTkSuQmCC");
-  background-position: 6px 9px;
+  background-position: 4px 7px;
   background-repeat: no-repeat;
 }
 
 div#users div.user.voice {
-  padding-left: 20px;
+  padding-left: 17px;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA1UlEQVQY00WOMU7DUBAFZz+u0qQwjelScwYfIeIGnMVn4QruaXwG09LFAikSVjD7Qdn/KIxF+2ZGegYgkXipjxS1mDXlyyZlDTfP5946ikkkxtsOdK8fKDkhh3AIt3E3vnemsX7gymM4KCeKg9wIh+IJZT1VZbFW3+sotz8prVI25Kmt4kJTHIob2mqHyGtQMk11/UiTMocNrjWEJ0oGg6nSpw2x2GGDZfsWAGBoSLvXtz7mNMYMMSdi+Rckxnp/6g1AHek83x2FtaAGbDI01PtTbx3lFzsdmBvIATUgAAAAAElFTkSuQmCC");
-  background-position: 6px 9px;
+  background-position: 4px 7px;
   background-repeat: no-repeat;
 }
 
