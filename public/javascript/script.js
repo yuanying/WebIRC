@@ -1072,6 +1072,7 @@ function irc_kick(connection_id, channel, source, user, reason) {
 function add_channel_narrative(connection_id, channel, text) {
   var div_narrative = create_div("activity_element small narrative")
   div_narrative.textContent = text
+  linkify(div_narrative)
   add_activity(connection_id, channel, div_narrative)
 }
 
@@ -1220,6 +1221,7 @@ function irc_server(connection_id, source, tag, text) {
     var div_motd = create_div("motd small")
     div_motd.textContent = text
     no_breaking_spaces(div_motd)
+    linkify(div_motd)
     div_activity(connection_id).appendChild(div_motd)
   } else {
     div_activity(connection_id).appendChild(create_activity_span("small server server_source", source, "small server", tag, "small server_info", text))

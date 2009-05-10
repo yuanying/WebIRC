@@ -163,13 +163,13 @@ div#connections div.connection_item.selected div.close_button:hover {
 
 div#connections div.server {
   float: left;
-  padding-left: 12px;
+  padding-left: 6px;
   font-weight: bold;
 }
 
 div#connections div.target {
   float: left;
-  padding-left: 24px;
+  padding-left: 18px;
 }
 
 div#connections div.join_button {
@@ -323,6 +323,15 @@ div#activity div.narrative {
   color: #888;
 }
 
+div#activity div.narrative a {
+  color: #888;
+  text-decoration: none;
+}
+
+div#activity div.narrative a:hover {
+  text-decoration: underline;
+}
+
 div#activity div.divider {
   height: 1px;
   border-top: 1px solid #EEE;
@@ -391,6 +400,15 @@ div#activity div.motd {
   background-color: #005;
   color: white;
   margin: 0px 4px;
+}
+
+div#activity div.motd a {
+  color: white;
+  text-decoration: none;
+}
+
+div#activity div.motd a:hover {
+  text-decoration: underline;
 }
 
 div#activity span.server_info {
