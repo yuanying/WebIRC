@@ -1195,10 +1195,12 @@ function irc_server_narrative(connection_id, text) {
 
 function root_notice(connection_id, source, msg) {
   if (source) {
-    div_activity(connection_id).appendChild(create_activity_span("small server server_source", source, "small server notice", "NOTICE", "small server_info", msg))
+    var span_root_notice = create_activity_span("small server server_source", source, "small server notice", "NOTICE", "small server_info", msg)
   } else {
-    div_activity(connection_id).appendChild(create_activity_span("small server notice", "NOTICE", "small server_info", msg))
+    var span_root_notice = create_activity_span("small server notice", "NOTICE", "small server_info", msg)
   }
+  linkify(span_root_notice)
+  div_activity(connection_id).appendChild(span_root_notice)
 }
 
 function create_target_if_necessary(connection_id, target, is_channel) {
@@ -1226,7 +1228,9 @@ function irc_server(connection_id, source, tag, text) {
     linkify(div_motd)
     div_activity(connection_id).appendChild(div_motd)
   } else {
-    div_activity(connection_id).appendChild(create_activity_span("small server server_source", source, "small server", tag, "small server_info", text))
+    var span_server = create_activity_span("small server server_source", source, "small server", tag, "small server_info", text)
+    linkify(span_server)
+    div_activity(connection_id).appendChild(span_server)
   }
 }
 
