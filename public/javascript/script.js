@@ -172,6 +172,20 @@ function input_command(cmd, param) {
       case "/DEVOICE":
       current_channel_mode_change("-v", param)
       break
+      case "/KICK":
+      var command = double_arg(param)
+      if (command) {
+        command_channel_check("KICK " + current.target + " " + command.first +  " :" + command.remainder, 1)
+      } else {
+        command_channel_check("KICK " + current.target + " " + param +  " :", 1)
+      }
+      break
+      case "/BAN":
+      current_channel_mode_change("+b", param)
+      break
+      case "/UNBAN":
+      current_channel_mode_change("+b", param)
+      break
       case "/USER":
       click_on_user(current.connection_id, param)
       break
