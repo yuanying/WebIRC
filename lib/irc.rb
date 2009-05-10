@@ -118,7 +118,7 @@ class IRC
   
   def part(raw)
     raw.scan(/^(\S+)(?:\s(.+))?/) do |channel, msg|
-      send("PART #{channel} :#{params}")
+      send("PART #{channel} :#{msg}")
       @joined_channels.delete(channel.downcase)
     end
   end
