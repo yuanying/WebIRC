@@ -203,7 +203,7 @@ class IRC
       text.scan(/^(\S+)\s(.*)/) do |cmd, params|
         case cmd
         when "ERROR"
-          @history.server_error_code(nil, "ERROR", trim(params))
+          @history.server_error_reply_raw(nil, "ERROR", trim(params))
         when "NICK"
           nick(@history.nickname, trim(params))
         when "NOTICE"
