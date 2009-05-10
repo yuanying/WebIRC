@@ -89,6 +89,12 @@ function send_msg(text) {
           case "/MOTD":
           command_request(current.connection_id, "MOTD", 1)
           break
+          case "/VERSION":
+          command_request(current.connection_id, "VERSION", 1)
+          break
+          case "/STATS":
+          command_request(current.connection_id, "STATS", 1)
+          break
           default:
           unknown_command()
         }
@@ -196,6 +202,12 @@ function input_command(cmd, param) {
       } else {
         current_channel_mode_change(param, "")
       }
+      break
+      case "/VERSION":
+      command_request(current.connection_id, "VERSION " + param, 1)
+      break
+      case "/STATS":
+      command_request(current.connection_id, "STATS " + param, 1)
       break
       case "/RAW":
       command_request(current.connection_id, param, 1)
