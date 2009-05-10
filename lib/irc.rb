@@ -111,8 +111,9 @@ class IRC
   
   def join(raw)
     raw.scan(/^(\S+)(?:\s(\S+))?/) do |channel, key|
-      send("JOIN #{channel} #{key}")
-      @joined_channels[channel.downcase] = raw
+      join_command = "JOIN #{channel} #{key}"
+      send(join_command)
+      @joined_channels[channel.downcase] = join_command
     end
   end
   
