@@ -3,12 +3,13 @@ require "lib/irc"
 class Connections
   @@count = 0
   
-  def initialize
+  def initialize(rss_feed)
     @irc_connections = Hash.new
+    @rss_feed = rss_feed
   end
   
   def add(connection)
-    session = IRC.new(connection)
+    session = IRC.new(connection, @rss_feed)
     @irc_connections[(@@count += 1).to_s] = {:session => session, :thread => Thread.new {session.connect}}
   end
   

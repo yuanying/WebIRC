@@ -7,11 +7,12 @@ $script_version = "0.9"
 $script_source  = "http://github.com/andyherbert/WebIRC/tree/master"
 
 class IRC
-  def initialize(connection)
+  def initialize(connection, rss_feed)
     @connection = connection
     @history = IRCHistory.new(@connection["nickname"])
     @joined_channels = Hash.new
     @connection_count = 0
+    @rss_feed = rss_feed
   end
   
   def connect
@@ -192,6 +193,10 @@ class IRC
               end
             end
             @history.privmsg(source, target, msg) unless msg.empty?
+            msg.scan(/((http:\/\/|www\.)[A-z0-9.\/?=+-:%@&()]+)/i) do |link, prefix|
+              link = "http://#{link}" if prefix =~ /^www\./i
+              @rss_feed.add(link, msg, source, ((target == @history.nickname) ? "Private message" : target))
+            end
           end
         when "QUIT"
           @history.quit(source, trim(params))

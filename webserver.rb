@@ -1,10 +1,15 @@
+require "lib/connections"
+require "lib/rss"
 require "rubygems"
 require "sinatra"
 require "json"
-require "lib/connections"
+
+mime :json, "application/json"
+mime :rss, "application/rss+xml"
 
 configure do
-  @@connections = Connections.new
+  @@rss_feed = RSSFeed.new
+  @@connections = Connections.new(@@rss_feed)
 end
 
 def get_history(last_read)
@@ -49,6 +54,7 @@ get "/" do
 end
 
 post "/connect" do
+  content_type :json
   command = json_request(request)
   @@connections.add(command)
   sleep 1
@@ -56,6 +62,7 @@ post "/connect" do
 end
 
 post "/close" do
+  content_type :json
   command = json_request(request)
   if command["target"]
     @@connections[command["connection_id"]].close(command["target"]) if @@connections.has?(command["connection_id"])
@@ -67,6 +74,7 @@ post "/close" do
 end
 
 post "/join" do
+  content_type :json
   command = json_request(request)
   @@connections[command["connection_id"]].join(command["channel"]) if @@connections.has?(command["connection_id"])
   sleep 1
@@ -74,6 +82,7 @@ post "/join" do
 end
 
 post "/part" do
+  content_type :json
   command = json_request(request)
   @@connections[command["connection_id"]].part(command["channel"]) if @@connections.has?(command["connection_id"])
   sleep 1
@@ -81,34 +90,45 @@ post "/part" do
 end
 
 post "/privmsg" do
+  content_type :json
   command = json_request(request)
   @@connections[command["connection_id"]].privmsg(command["target"], command["text"], command["action"]) if @@connections.has?(command["connection_id"])
   get_update(command)
 end
 
 post "/notice" do
+  content_type :json
   command = json_request(request)
   @@connections[command["connection_id"]].notice(command["target"], command["text"]) if @@connections.has?(command["connection_id"])
   get_update(command)
 end
 
 post "/new_window" do
+  content_type :json
   command = json_request(request)
   @@connections[command["connection_id"]].new_window(command["target"]) if @@connections.has?(command["connection_id"])
   get_update(command)
 end
 
 get "/all" do
+  content_type :json
   {:history => get_history({})}.to_json
 end
 
 post "/update" do
+  content_type :json
   get_update(JSON.parse(request.env["rack.input"].read))
 end
 
 post "/command" do
+  content_type :json
   command = json_request(request)
   @@connections[command["connection_id"]].send(command["command"]) if @@connections.has?(command["connection_id"])
   sleep command["wait"] if command["wait"]
   {:history => get_history(command["last_read"]), :sync => sync(command["sync"])}.to_json
+end
+
+get "/rss" do
+  content_type :rss
+  "<?xml version='1.0' encoding='UTF-8' ?>\n\n#{@@rss_feed.to_s}"
 end
