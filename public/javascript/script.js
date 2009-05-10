@@ -1155,7 +1155,7 @@ function add_link(text) {
 }
 
 function linkify(element) {
-  element.innerHTML = element.innerHTML.gsub(/((http:\/\/|www\.)([A-z0-9.\/?=+-:%]|&amp;)+)/i, function(match){return add_link(match[1])})
+  element.innerHTML = element.innerHTML.gsub(/((http:\/\/|www\.)([A-z0-9.\/?=+-:%@]|&amp;)+)/i, function(match){return add_link(match[1])})
   return element
 }
 
