@@ -274,7 +274,7 @@ const DOWN_CURSOR = 40
 const DELETE = 8
 const TAB = 9
 
-function detect_keypress(event) {
+function detect_tab_completion(event) {
   if (!event.ctrlKey && event.which == TAB) {
     if ((tab_completion.repeat && tab_completion.response) || $("msg").value.match(/^\S+$/)) {
       tab_completion.response = true
@@ -290,6 +290,9 @@ function detect_keypress(event) {
   } else {
     tab_completion.repeat = false
   }
+}
+
+function detect_global_keypress(event) {
   if (event.ctrlKey) {
     switch (event.which) {
       case LEFT_CURSOR:
