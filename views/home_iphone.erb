@@ -17,7 +17,7 @@
   <div id="viewport">
     <div id="main_view">
       <div id="connections_view">
-        <div class="header">
+        <div onclick="update_request()" class="header">
           WebIRC
         </div>
         <div id="connections">
@@ -26,7 +26,7 @@
       </div>
       <div id="target_view">
         <div class="header">
-          <div id="target_text">.</div>
+          <div onclick="update_request()" id="target_text">.</div>
           <div id="back_button" onclick="go_back();"></div>
         </div>
         <div class="lucidia" id="activity">

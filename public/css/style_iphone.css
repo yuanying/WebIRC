@@ -36,6 +36,7 @@ body {
   height: 34px;
   padding-top: 10px;
   text-align: center;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .target_header {
@@ -196,7 +197,6 @@ div#activity div.timestamp {
   margin: 4px;
   padding: 2px 8px;
   background-color: #BBB;
-  -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
 }
 
@@ -235,7 +235,6 @@ div#activity div.activity_header {
   text-align: center;
   margin: 0px 4px;
   padding: 2px 0px;
-  -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
 }
 
