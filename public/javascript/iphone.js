@@ -361,6 +361,14 @@ function mention_me(connection_id, text) {
   }
 }
 
+function add_link(text) {
+  if (text.match(/^www\./i)) {
+    return "<a href=\"http://" + text + "\" target=\"_blank\">" + text + "</a>"
+  } else {
+    return "<a href=\"" + text + "\" target=\"_blank\">" + text + "</a>"
+  }
+}
+
 function linkify(element) {
   element.innerHTML = element.innerHTML.gsub(/((https?:\/\/|www\.)([A-z0-9.\/?=+-:%@()]|&amp;)+)/i, function(match){return add_link(match[1])})
   return element
