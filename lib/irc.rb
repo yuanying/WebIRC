@@ -73,6 +73,15 @@ class IRC
     send("QUIT")
   end
   
+  def history_iphone(last_read)
+    {
+      :server_name => @connection["server_name"],
+      :nickname => @history.nickname,
+      :connection_count => @connection_count,
+      :history => @history.history_iphone(last_read)
+    }
+  end
+  
   def history(last_read)
     {
       :server_name => @connection["server_name"],

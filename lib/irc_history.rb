@@ -191,6 +191,11 @@ class IRCHistory
     add_history(@channels, channel, {:type => TOPIC, :source => source, :text => text})
   end
   
+  def history_iphone(last_read)
+    { :channels => target_history(@channels, last_read),
+      :privmsgs => target_history(@privmsgs, last_read) }
+  end
+  
   def history(last_read)
     { :root_log => {:last_activity => @root_log[:last_activity], :data => since_last_read(@root_log, last_read)},
       :channels => target_history(@channels, last_read),

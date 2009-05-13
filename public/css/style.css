@@ -566,7 +566,7 @@ div#activity div#blank {
 }
 
 div.shadow {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAGCAAAAAAne6vtAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAEklEQVQI12NYwiTIJAbEnEzMAAj6APNHLryNAAAAAElFTkSuQmCC);
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAGCAAAAAAne6vtAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAEklEQVQI12NYwiTIJAbEnEzMAAj6APNHLryNAAAAAElFTkSuQmCC");
   background-repeat: repeat-x;
   width: 100%;
   height: 6px;

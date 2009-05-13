@@ -879,7 +879,6 @@ function update_target_attributes(connection_id, target, history_element) {
   connections[connection_id].targets[target]["topic_creator"] = history_element.topic_creator
   connections[connection_id].targets[target]["topic_creation_time"] = history_element.topic_creation_time
   connections[connection_id].targets[target]["last_activity"] = history_element.last_activity
-  
 }
 
 function update_read_count(connection_id, msg_id) {
@@ -982,7 +981,6 @@ function add_unread(connection_id, target, msg_id, highlighted) {
     create_bookmark(connection_id, target, msg_id)
   } else {
     if (get_bookmark(connection_id, target) < msg_id) {
-      var div_unread = get_unread_div(connection_id, target)
       set_display(div_unread, "block")
       div_unread.textContent = parseInt(div_unread.textContent) + 1
       if (highlighted) {

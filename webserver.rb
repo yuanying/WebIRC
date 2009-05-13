@@ -12,6 +12,14 @@ configure do
   @@connections = Connections.new(@@rss_feed)
 end
 
+def get_history_iphone(last_read)
+  history = Hash.new
+  @@connections.each_connection_with_id do |connection_id, connection|
+    history[connection_id] = connection.history_iphone(last_read.has_key?(connection_id) ? last_read[connection_id] : 0)
+  end
+  history
+end
+
 def get_history(last_read)
   history = Hash.new
   @@connections.each_connection_with_id do |connection_id, connection|
@@ -41,12 +49,20 @@ def sync(open)
   {:targets => close, :connections => close_connections}
 end
 
+def get_update_iphone(json_object)
+  {:history => get_history_iphone(json_object["last_read"]), :sync => sync(json_object["sync"])}.to_json
+end
+
 def get_update(json_object)
   {:history => get_history(json_object["last_read"]), :sync => sync(json_object["sync"])}.to_json
 end
 
 def json_request(request)
   JSON.parse(request.env["rack.input"].read)
+end
+
+get "/", :agent => /Apple.*Mobile.*Safari/ do
+  erb :home_iphone
 end
 
 get "/" do
@@ -121,6 +137,11 @@ end
 get "/all" do
   content_type :json
   {:history => get_history({})}.to_json
+end
+
+post "/update", :agent => /Apple.*Mobile.*Safari/ do
+  content_type :json
+  get_update_iphone(JSON.parse(request.env["rack.input"].read))
 end
 
 post "/update" do

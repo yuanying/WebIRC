@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta content="user-scalable=no, initial-scale=1.0, width=device-width" name="viewport">
+  <title>WebIRC</title>
+  <link rel="stylesheet" href="/css/style_iphone.css" type="text/css" media="screen" charset="utf-8">
+  <script src="javascript/prototype.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascript/cookie.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascript/date.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascript/ajax.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascript/iphone.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body onload="init(); setTimeout('hide_toolbar()', 500)">
+  <div id="viewport">
+    <div id="main_view">
+      <div id="connections_view">
+        <div class="header">
+          WebIRC
+        </div>
+        <div id="connections">
+          
+        </div>
+      </div>
+      <div id="target_view">
+        <div class="header">
+          <div id="target_text">.</div>
+          <div id="back_button" onclick="go_back();"></div>
+        </div>
+        <div class="lucidia" id="activity">
+        </div>
+        <form id="input" onsubmit="send_msg(msg.value); return false" action="" accept-charset="utf-8">
+          <div class="input_container">
+            <input onkeydown="key_press(event, this.value); return true" type="text" value="" id="msg" maxlength="256"><div onclick="send_msg(msg.value)" id="send_button"><span class="lucidia" id="send_text">Send</span></div>
+          </div>
+          <div id="activity_info" class="target_header activity_info">
+            
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</html>
