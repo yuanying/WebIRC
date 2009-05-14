@@ -553,12 +553,12 @@ function change_to(connection_id, target) {
   update_title(connection_id, target)
   update_topic(connection_id, target)
   show_or_hide_users(connection_id, target)
-  update_activity_width()
-  scroll_to_bottom()
   update_activity(connection_id, target)
   current["connection_id"] = connection_id
   current["target"] = target
   jar.put("current", current)
+  update_activity_width()
+  scroll_to_bottom()
 }
 
 function show_or_hide_users(connection_id, target) {
