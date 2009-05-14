@@ -538,12 +538,10 @@ function change_to(connection_id, target) {
     show("activity")
     show("msg")
   }
-  update_activity_width()
   if (connection_id) {
     $("activity").appendChild(div_activity(connection_id, target))
     div_connection_item(connection_id, target).className = "connection_item selected"
     show("activity")
-    scroll_to_bottom()
     $("msg").focus()
     clear_unread(connection_id, target, true)
   } else {
@@ -555,6 +553,8 @@ function change_to(connection_id, target) {
   update_title(connection_id, target)
   update_topic(connection_id, target)
   show_or_hide_users(connection_id, target)
+  update_activity_width()
+  scroll_to_bottom()
   update_activity(connection_id, target)
   current["connection_id"] = connection_id
   current["target"] = target
