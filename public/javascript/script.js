@@ -538,6 +538,7 @@ function change_to(connection_id, target) {
     show("activity")
     show("msg")
   }
+  update_activity_width()
   if (connection_id) {
     $("activity").appendChild(div_activity(connection_id, target))
     div_connection_item(connection_id, target).className = "connection_item selected"
@@ -557,7 +558,6 @@ function change_to(connection_id, target) {
   update_activity(connection_id, target)
   current["connection_id"] = connection_id
   current["target"] = target
-  update_activity_width()
   jar.put("current", current)
 }
 
