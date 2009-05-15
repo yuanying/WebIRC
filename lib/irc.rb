@@ -248,7 +248,7 @@ class IRC
         end
       end
     when 376 # End of MOTD
-      @joined_channels.each_value {|raw| send("JOIN #{raw}")}
+      @joined_channels.each_value {|raw| send(raw)}
     end
     case code
     when 1..400
