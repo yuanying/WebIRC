@@ -81,6 +81,7 @@ post "/connect" do
   content_type :json
   command = json_request(request)
   @@config["nickname"], @@config["user_name"], @@config["real_name"] = command["nickname"], command["user_name"], command["real_name"]
+  @@config.save!
   @@connections.add(command)
   sleep 1
   get_update(command)
