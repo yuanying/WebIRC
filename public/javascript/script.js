@@ -114,6 +114,15 @@ function send_msg(text) {
   }
 }
 
+function parse_join(connection_id, text) {
+  var command = double_arg(text)
+  if (command) {
+    join_request(connection_id, command.first, command.remainder.match(/^(\S+)/)[1])
+  } else {
+    join_request(connection_id, text, null)
+  }
+}
+
 function unknown_command() {
   local_error("Unknown command")
 }
@@ -164,10 +173,15 @@ function input_command(cmd, param) {
       }
       break
       case "/JOIN":
-      join_request(current.connection_id, param)
+      parse_join(current.connection_id, param)
       break
       case "/PART":
-      part_request(current.connection_id, param)
+      var command = double_arg(param)
+      if (command) {
+        part_request(current.connection_id, command.first, command.remainder)
+      } else {
+        part_request(current.connection_id, param, null)
+      }
       break
       case "/WHOIS":
       whois_user(current.connection_id, param)
@@ -1385,7 +1399,7 @@ function cancel_join(connection_id) {
 }
 
 function join_input(connection_id) {
-  join_request(connection_id, connections[connection_id].join_input.value)
+  parse_join(connection_id, connections[connection_id].join_input.value)
   cancel_join(connection_id)
 }
 

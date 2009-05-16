@@ -92,7 +92,7 @@ end
 post "/join" do
   content_type :json
   command = json_request(request)
-  @@connections[command["connection_id"]].join(command["channel"]) if @@connections.has?(command["connection_id"])
+  @@connections[command["connection_id"]].join(command["channel"], command["param"]) if @@connections.has?(command["connection_id"])
   sleep 1
   get_update(command)
 end
@@ -100,7 +100,7 @@ end
 post "/part" do
   content_type :json
   command = json_request(request)
-  @@connections[command["connection_id"]].part(command["channel"]) if @@connections.has?(command["connection_id"])
+  @@connections[command["connection_id"]].part(command["channel"], command["param"]) if @@connections.has?(command["connection_id"])
   sleep 1
   get_update(command)
 end

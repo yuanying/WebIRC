@@ -33,12 +33,12 @@ function command_request(connection_id, command, wait) {
   request = post("command", Object.toJSON(command_request), irc_handler)
 }
 
-function join_request(connection_id, channel) {
-  channel_request("join", connection_id, channel)
+function join_request(connection_id, channel, key) {
+  channel_request("join", connection_id, channel, key)
 }
 
-function part_request(connection_id, channel) {
-  channel_request("part", connection_id, channel)
+function part_request(connection_id, channel, msg) {
+  channel_request("part", connection_id, channel, msg)
 }
 
 function privmsg_request(connection_id, target, text, action) {
@@ -71,10 +71,11 @@ function notice_request(connection_id, target, text) {
   request = post("notice", Object.toJSON(notice_request), irc_handler)
 }
 
-function channel_request(type, connection_id, channel) {
+function channel_request(type, connection_id, channel, param) {
   var channel_request = new Object()
   channel_request["connection_id"] = connection_id
   channel_request["channel"] = channel
+  channel_request["param"] = param
   channel_request["last_read"] = last_read
   channel_request["sync"] = form_sync_object()
   request = post(type, Object.toJSON(channel_request), irc_handler)

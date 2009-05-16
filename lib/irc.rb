@@ -119,19 +119,22 @@ class IRC
     text
   end
   
-  def join(raw)
-    raw.scan(/^(\S+)(?:\s(\S+))?/) do |channel, key|
-      join_command = "JOIN #{channel} #{key}"
-      send(join_command)
-      @joined_channels[channel.downcase] = join_command
+  def join(channel, key)
+    if key
+      send("JOIN #{channel} #{key}")
+    else
+      send("JOIN #{channel}")
     end
+    @joined_channels[channel.downcase] = key
   end
   
-  def part(raw)
-    raw.scan(/^(\S+)(?:\s(.+))?/) do |channel, msg|
+  def part(channel, msg)
+    if msg
       send("PART #{channel} :#{msg}")
-      @joined_channels.delete(channel.downcase)
+    else
+      send("PART #{channel}")
     end
+    @joined_channels.delete(channel.downcase)
   end
   
   def privmsg(target, text, action)
@@ -248,7 +251,7 @@ class IRC
         end
       end
     when 376 # End of MOTD
-      @joined_channels.each_value {|raw| send(raw)}
+      @joined_channels.each_pair {|channel, key| send("JOIN #{channel} #{key}")}
     end
     case code
     when 1..400
