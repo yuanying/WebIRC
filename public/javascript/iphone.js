@@ -6,7 +6,7 @@ var div_activity_info
 var div_send_text
 var input_msg
 var request
-var jar = new CookieJar({expires:10080, path:"/"});
+var jar = new CookieJar({expires:604800, path:"/"});
 var connections = new Object()
 var last_read = new Object()
 var current = new Object()
