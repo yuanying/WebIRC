@@ -17,11 +17,13 @@ class WebIRCConfig
   
   def []=(key, value)
     @config[key] = value
+  end
+  
+  def save!
     begin
       File.open(CONFIG, "w") {|file| file.write(YAML::dump(@config))}
     rescue Exception => e
       puts "An error occured whist attampting to write value #{value} to the key #{key} in #{CONFIG}"
     end
-    value
   end
 end
