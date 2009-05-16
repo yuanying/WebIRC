@@ -88,7 +88,7 @@ body {
   margin-right: 14px;
   background-color: rgb(132, 152, 193);
   -webkit-border-radius: 12px;
-  padding: 2px 8px;
+  padding: 2px 10px 2px 11px;
 }
 
 .unread_count.highlighted {
