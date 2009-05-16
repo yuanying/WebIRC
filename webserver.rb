@@ -1,3 +1,4 @@
+require "lib/webircconfig"
 require "lib/connections"
 require "lib/rss"
 require "rubygems"
@@ -8,8 +9,15 @@ mime :json, "application/json"
 mime :rss, "application/rss+xml"
 
 configure do
+  @@config = WebIRCConfig.new
   @@rss_feed = RSSFeed.new
   @@connections = Connections.new(@@rss_feed)
+end
+
+helpers do
+  def config(key)
+    @@config[key]
+  end
 end
 
 def get_history_iphone(last_read)
@@ -72,6 +80,7 @@ end
 post "/connect" do
   content_type :json
   command = json_request(request)
+  @@config["nickname"], @@config["user_name"], @@config["real_name"] = command["nickname"], command["user_name"], command["real_name"]
   @@connections.add(command)
   sleep 1
   get_update(command)

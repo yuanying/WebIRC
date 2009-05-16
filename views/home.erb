@@ -66,19 +66,19 @@
               <div class="field_element">
                 <div class="field_name">Nickname:</div>
                 <div class="field_container">
-                  <input class="lucidia regular field_entry" type="text" name="" value="<%=@default_nickname or ac_nick = "AC#{"%03d" % rand(1000)}"%>" id="nickname">
+                  <input class="lucidia regular field_entry" type="text" name="" value="<%=config("nickname") or "JohnQ"%>" id="nickname">
                 </div>
               </div>
               <div class="field_element">
                 <div class="field_name">Username:</div>
                 <div class="field_container">
-                  <input class="lucidia regular field_entry" type="text" name="" value="<%=@default_user_name or ac_nick%>" id="user_name">
+                  <input class="lucidia regular field_entry" type="text" name="" value="<%=config("user_name") or "john_q"%>" id="user_name">
                 </div>
               </div>
               <div class="field_element">
                 <div class="field_name">Real name:</div>
                 <div class="field_container">
-                  <input class="lucidia regular field_entry" type="text" name="" value="<%=@default_real_name or "Anonymous Coward"%>" id="real_name">
+                  <input class="lucidia regular field_entry" type="text" name="" value="<%=config("real_name") or "John Q Public"%>" id="real_name">
                 </div>
               </div>
               <div class="field_element">
