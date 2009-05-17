@@ -18,66 +18,83 @@ helpers do
   def config(key)
     @@config[key]
   end
-end
-
-def get_history_iphone(last_read)
-  history = Hash.new
-  @@connections.each_connection_with_id do |connection_id, connection|
-    history[connection_id] = connection.history_iphone(last_read.has_key?(connection_id) ? last_read[connection_id] : 0)
+  
+  def protected?
+    @@config["web_user"] and @@config["web_password"]
   end
-  history
-end
-
-def get_history(last_read)
-  history = Hash.new
-  @@connections.each_connection_with_id do |connection_id, connection|
-    history[connection_id] = connection.history(last_read.has_key?(connection_id) ? last_read[connection_id] : 0)
+  
+  def protected!
+    response["WWW-Authenticate"] = %(Basic realm="WebIRC") and throw(:halt, [401, "Not authorized\n"]) and return unless !protected? or authorized?
   end
-  history
-end
-
-def get_users
-  users = Hash.new
-  @@connections.each_connection_with_id do |connection_id, connection|
-    users[connection_id] = connection.users
+  
+  def authorized?
+    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == [@@config["web_user"], @@config["web_password"]]
   end
-  users
-end
-
-def sync(open)
-  close = Hash.new
-  close_connections = Array.new
-  open.each_key do |connection_id|
-    if @@connections.has?(connection_id)
-      close[connection_id] = {:channels => @@connections[connection_id].sync_channels(open[connection_id]["channels"]), :privmsgs => @@connections[connection_id].sync_privmsgs(open[connection_id]["privmsgs"])}
-    else
-      close_connections << connection_id
+  
+  def get_history_iphone(last_read)
+    history = Hash.new
+    @@connections.each_connection_with_id do |connection_id, connection|
+      history[connection_id] = connection.history_iphone(last_read.has_key?(connection_id) ? last_read[connection_id] : 0)
     end
+    history
   end
-  {:targets => close, :connections => close_connections}
+  
+  def get_history(last_read)
+    history = Hash.new
+    @@connections.each_connection_with_id do |connection_id, connection|
+      history[connection_id] = connection.history(last_read.has_key?(connection_id) ? last_read[connection_id] : 0)
+    end
+    history
+  end
+  
+  def get_users
+    users = Hash.new
+    @@connections.each_connection_with_id do |connection_id, connection|
+      users[connection_id] = connection.users
+    end
+    users
+  end
+  
+  def sync(open)
+    close = Hash.new
+    close_connections = Array.new
+    open.each_key do |connection_id|
+      if @@connections.has?(connection_id)
+        close[connection_id] = {:channels => @@connections[connection_id].sync_channels(open[connection_id]["channels"]), :privmsgs => @@connections[connection_id].sync_privmsgs(open[connection_id]["privmsgs"])}
+      else
+        close_connections << connection_id
+      end
+    end
+    {:targets => close, :connections => close_connections}
+  end
+  
+  def get_update_iphone(json_object)
+    {:history => get_history_iphone(json_object["last_read"]), :sync => sync(json_object["sync"])}.to_json
+  end
+  
+  def get_update(json_object)
+    {:history => get_history(json_object["last_read"]), :sync => sync(json_object["sync"])}.to_json
+  end
+  
+  def json_request(request)
+    JSON.parse(request.env["rack.input"].read)
+  end
 end
 
-def get_update_iphone(json_object)
-  {:history => get_history_iphone(json_object["last_read"]), :sync => sync(json_object["sync"])}.to_json
-end
-
-def get_update(json_object)
-  {:history => get_history(json_object["last_read"]), :sync => sync(json_object["sync"])}.to_json
-end
-
-def json_request(request)
-  JSON.parse(request.env["rack.input"].read)
-end
 
 get "/", :agent => /Apple.*Mobile.*Safari/ do
+  protected!
   erb :home_iphone
 end
 
 get "/" do
+  protected!
   erb :home
 end
 
 post "/connect" do
+  protected!
   content_type :json
   command = json_request(request)
   @@config["nickname"], @@config["user_name"], @@config["real_name"] = command["nickname"], command["user_name"], command["real_name"]
@@ -88,6 +105,7 @@ post "/connect" do
 end
 
 post "/close" do
+  protected!
   content_type :json
   command = json_request(request)
   if command["target"]
@@ -100,6 +118,7 @@ post "/close" do
 end
 
 post "/join" do
+  protected!
   content_type :json
   command = json_request(request)
   @@connections[command["connection_id"]].join(command["channel"], command["param"]) if @@connections.has?(command["connection_id"])
@@ -108,6 +127,7 @@ post "/join" do
 end
 
 post "/part" do
+  protected!
   content_type :json
   command = json_request(request)
   @@connections[command["connection_id"]].part(command["channel"], command["param"]) if @@connections.has?(command["connection_id"])
@@ -116,6 +136,7 @@ post "/part" do
 end
 
 post "/privmsg" do
+  protected!
   content_type :json
   command = json_request(request)
   @@connections[command["connection_id"]].privmsg(command["target"], command["text"], command["action"]) if @@connections.has?(command["connection_id"])
@@ -123,6 +144,7 @@ post "/privmsg" do
 end
 
 post "/notice" do
+  protected!
   content_type :json
   command = json_request(request)
   @@connections[command["connection_id"]].notice(command["target"], command["text"]) if @@connections.has?(command["connection_id"])
@@ -130,6 +152,7 @@ post "/notice" do
 end
 
 post "/new_window" do
+  protected!
   content_type :json
   command = json_request(request)
   @@connections[command["connection_id"]].new_window(command["target"]) if @@connections.has?(command["connection_id"])
@@ -137,6 +160,7 @@ post "/new_window" do
 end
 
 post "/command" do
+  protected!
   content_type :json
   command = json_request(request)
   @@connections[command["connection_id"]].send(command["command"]) if @@connections.has?(command["connection_id"])
@@ -145,16 +169,19 @@ post "/command" do
 end
 
 get "/all" do
+  protected!
   content_type :json
   {:history => get_history({})}.to_json
 end
 
 post "/update", :agent => /Apple.*Mobile.*Safari/ do
+  protected!
   content_type :json
   get_update_iphone(JSON.parse(request.env["rack.input"].read))
 end
 
 post "/update" do
+  protected!
   content_type :json
   get_update(JSON.parse(request.env["rack.input"].read))
 end
