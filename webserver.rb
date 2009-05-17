@@ -7,6 +7,7 @@ require "json"
 
 mime :json, "application/json"
 mime :rss, "application/rss+xml"
+mime :raw, "application/octet-stream"
 
 configure do
   @@config = WebIRCConfig.new
@@ -91,6 +92,27 @@ end
 get "/" do
   protected!
   erb :home
+end
+
+get "/public/:filename" do
+  if @@config.exists?(params["filename"])
+    content_type :raw
+    @@config.get_file(params["filename"]) {|file| file.read}
+  else
+    raise Sinatra::NotFound
+  end
+end
+
+get "/upload" do
+  protected!
+  erb :upload
+end
+
+post "/upload" do
+  protected!
+  @filename = params["datafile"][:filename]
+  @@config.save_file(@filename) {|file| file.write(params["datafile"][:tempfile].read)}
+  erb :uploaded
 end
 
 post "/connect" do

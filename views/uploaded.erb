@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+            "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Host File</title>
+  <style type="text/css" media="screen">
+  
+    div#file_container {
+      margin: 30px 10px;
+    }
+    
+    input#uploaded_uri {
+      font-family: "Lucida Grande", Helvetica, "MS Trebuchet", Arial, sans-serif;
+      font-size: 14px;
+      width: 570px;
+      border: 1px solid #AAA;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      padding: 2px;
+      margin: 6px 4px 6px 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="file_container">
+    <input id="uploaded_uri" type="text" value="public/<%=@filename%>">
+    <script type="text/javascript" charset="utf-8">
+      var input_upload_uri = document.getElementById("uploaded_uri")
+      input_upload_uri.value = ("" + window.location).match(/^(.+\/)/)[1] + input_upload_uri.value
+      input_upload_uri.focus()
+    </script>
+  </div>
+</body>
+</html>

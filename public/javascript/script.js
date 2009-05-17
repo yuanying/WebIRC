@@ -50,6 +50,10 @@ function do_key() {
   document.body.appendChild(div_blackout)
 }
 
+function do_host_file() {
+  window.open("upload", "Host File", "width=640, height=90, resizable=no, scrollbars=no, toolbar=no, location=no, directories=no, status=no, menubar=no, copyhistory=no")
+}
+
 function ok_key_requester(web_user, web_pass, same_pass) {
   if (same_pass) {
     if (web_user == "" || web_pass == "") {
