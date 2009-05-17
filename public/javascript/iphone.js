@@ -501,7 +501,6 @@ function irc_channel_mode(connection_id, channel, source, target, add_mode, mode
     } else {
       deop_user(connection_id, channel, source, param)
     }
-    update_user_list(connection_id, channel)
     break
     case "v":
     if (add_mode) {
@@ -509,7 +508,6 @@ function irc_channel_mode(connection_id, channel, source, target, add_mode, mode
     } else {
       devoice_user(connection_id, channel, source, param)
     }
-    update_user_list(connection_id, channel)
     break
     default:
     add_channel_narrative(connection_id, channel, source + " has set the mode of " + target + " to " + mode_operator(add_mode) + mode_char + mode_param(param))
