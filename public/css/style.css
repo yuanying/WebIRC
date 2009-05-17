@@ -63,6 +63,7 @@ div.header div.github_link {
   text-align: left;
   vertical-align: middle;
   padding-left: 12px;
+  width: 100px;
 }
 
 div.header div.github_link a {
@@ -73,6 +74,73 @@ div.header div.github_link a {
 
 div.header div.github_link a:hover {
   text-decoration: underline;
+}
+
+div.header div.key {
+  width: 75px;
+  opacity: 0.7;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAWCAYAAACosj4+AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAlElEQVRIx2NgGAWjYPACISCeCMTngPgzlJ4IFac7cADiF0D8Hwt+AZWna8jgcgyyo+gWUhPRLH8IxC5AzAOlH0LFJ5JiaD0BH5KCXdDMdoGKnyPFQf+piHnQzOaBin8eKAdRJYTQo61+oNMQJQ6iSS7DZdCAlUOUOojqJTW6A8hxEFXBoHNQPVpCricxYY+CUTBgAABp25HelFN68gAAAABJRU5ErkJggg==");
+  background-repeat: no-repeat;
+  background-position: 30px -2px;
+}
+
+div#blackout {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+div.key_requester {
+  margin: 100px auto 0px auto;
+  width: 400px;
+  height: 124px;
+  padding: 8px;
+  background-color: white;
+  border: 2px solid #444;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+
+div.key_requester div.requester_button {
+  margin: 4px 10px;
+  border: 1px solid #444;
+  height: 17px;
+  width: 150px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+
+div.key_requester div.ok_button {
+  float: left;
+}
+
+div.key_requester div.cancel_button {
+  float: right;
+}
+
+div.key_requester div.field_element {
+  clear: left;
+}
+
+div.key_requester div.field_name {
+  width: 150px;
+  float: left;
+  text-align: right;
+  margin-top: 6px;
+}
+
+div.key_requester div.field_container {
+  float: left;
+}
+
+div.key_requester input.field_entry {
+  width: 200px;
+  border: 1px solid #AAA;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  padding: 2px;
+  margin: 4px 4px 4px 12px;
 }
 
 div.footer {
@@ -531,6 +599,7 @@ div.activity_container div.field_name {
   text-align: right;
   margin-top: 6px;
 }
+
 div.activity_container div.field_element {
   clear: left;
 }

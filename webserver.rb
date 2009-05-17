@@ -186,6 +186,14 @@ post "/update" do
   get_update(JSON.parse(request.env["rack.input"].read))
 end
 
+post "/password" do
+  protected!
+  command = json_request(request)
+  @@config["web_user"], @@config["web_password"] = command["web_user"], command["web_password"]
+  @@config.save!
+  "200"
+end
+
 get "/rss" do
   content_type :rss
   @@rss_feed.to_s

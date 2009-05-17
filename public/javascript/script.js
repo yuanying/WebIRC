@@ -1,4 +1,5 @@
 var request
+var password_request
 var connections = new Object()
 var last_read = new Object()
 var current = new Object()
@@ -37,6 +38,33 @@ window.onresize = function() {
 
 window.onfocus = function() {
   $("msg").focus()
+}
+
+function do_key() {
+  var div_blackout = create_div(null, "blackout")
+  div_blackout.style.width = document.body.offsetWidth + "px"
+  div_blackout.style.height = document.body.offsetHeight + "px"
+  var div_key_requester = $("key_requester").cloneNode(true)
+  div_key_requester.style.display = "block"
+  div_blackout.appendChild(div_key_requester)
+  document.body.appendChild(div_blackout)
+}
+
+function ok_key_requester(web_user, web_pass, same_pass) {
+  if (same_pass) {
+    if (web_user == "" || web_pass == "") {
+      alert("Username and password values cannot be left blank.")
+    } else {
+      key_request(web_user, web_pass)
+      cancel_key_requester()
+    }
+  } else {
+    alert("Password entries do not match.")
+  }
+}
+
+function cancel_key_requester() {
+  document.body.removeChild($("blackout"))
 }
 
 function update_activity_width() {

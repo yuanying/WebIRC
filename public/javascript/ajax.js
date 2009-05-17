@@ -41,6 +41,19 @@ function part_request(connection_id, channel, msg) {
   channel_request("part", connection_id, channel, msg)
 }
 
+function key_request(user_name, password) {
+  var key_request = new Object()
+  key_request["web_user"] = user_name
+  key_request["web_password"] = password
+  password_request = post("password", Object.toJSON(key_request), password_handler)
+}
+
+function password_handler(event) {
+  if (password_request && password_request.readyState == 4 && password_request.status == 200) {
+    window.location.reload()
+  }
+}
+
 function privmsg_request(connection_id, target, text, action) {
   var privmsg_request = new Object()
   privmsg_request["connection_id"] = connection_id

@@ -17,15 +17,16 @@
   <div>
     <div class="table header lucidia regular">
       <div class="row">
-        <div class="tiny cell sidebar github_link">
+        <div class="tiny cell github_link">
           <a href="https://github.com/andyherbert/WebIRC/tree" target="_blank">Fork me on GitHub</a>
         </div>
         <div class="cell">
-          <div id="title_text" class="">
+          <div id="title_text">
             Web IRC
           </div>
         </div>
-        <div class="cell sidebar">
+        <div class="cell clickable key" onclick="do_key()">
+          
         </div>
       </div>
     </div>
@@ -183,6 +184,28 @@
         </div>
       </div>
     </div>
+  </div>
+  <div id="key_requester" class="key_requester lucidia regular hide">
+    <form id="set_password" onsubmit="ok_key_requester(this.web_user.value, this.web_pass_1.value, (this.web_pass_1.value == this.web_pass_2.value)); return false;" action="" accept-charset="utf-8">
+      <div class="field_name">User name:</div>
+      <div id="" class="field_container">
+        <input class="lucidia regular field_entry" type="text" name="" value="<%=config("web_user") or ""%>" id="web_user">
+      </div>
+      <div class="field_name">Password:</div>
+      <div class="field_container">
+        <input class="lucidia regular field_entry" type="password" name="" value="<%=config("web_password") or ""%>" id="web_pass_1">
+      </div>
+      <div class="field_name">Re-enter password:</div>
+      <div class="field_container">
+        <input class="lucidia regular field_entry" type="password" name="" value="<%=config("web_password") or ""%>" id="web_pass_2">
+      </div>
+      <div onclick="ok_key_requester(this.parentNode.web_user.value, this.parentNode.web_pass_1.value, (this.parentNode.web_pass_1.value == this.parentNode.web_pass_2.value))" class="clickable header with_hover requester_button ok_button">
+        Set password
+      </div>
+      <div onclick="cancel_key_requester()" class="clickable header with_hover requester_button cancel_button">
+        Cancel
+      </div>
+    </form>
   </div>
 </body>
 </html>
