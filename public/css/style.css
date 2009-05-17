@@ -79,9 +79,9 @@ div.header div.github_link a:hover {
 div.header div.key {
   width: 75px;
   opacity: 0.8;
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAOCAYAAAArMezNAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAhklEQVQ4y7WTuw3AIAwFbwCqTJSCvZiBxdiBjp4BSOMCWeGfPMmyZNDxZBvY0wV4IABZspf6tm4gAeUlkpxvOW1Ba/iyc68gEbCAkRyl7gHcwEEvrHrYSj1wAC3itJaRej4Fdx3rdriverwCXtqK1oXjPV4FT/88DZoBT+k3sFMDc4MBTukBqz6F6uzn58IAAAAASUVORK5CYII=");
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAMCAYAAABm+U3GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA1klEQVQ4y2P4//+/Fql4z549lk5OTouNjIyu6ejofAXRID5IHKaGgVRDCwsL43V1dd9oaWn9R8cgcZA8yQaDXITLUGTDQepIMhjkXZgB+vr6z3JycpLPnTtnAqJBfJgcSB2Dh4fHFHwuwIVBhiFbCuLD5EBhzkCOoSAMcimywSA+TA4UoQxAUA/E/8nALgyowAVJ7hyyBLImXGAikpqHUMN4oPRDJLmJDARchQ6EgPgFAT0voOpIMhgEHPAY/gIqjzUIiAkSIah3QWH5GUpPhLmUEoMJAgBZsHI7l86AMQAAAABJRU5ErkJggg==");
   background-repeat: no-repeat;
-  background-position: 40px 1px;
+  background-position: 40px 2px;
 }
 
 div#blackout {
