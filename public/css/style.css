@@ -60,9 +60,9 @@ div.header {
 }
 
 div.header div.github_link {
-  text-align: right;
+  text-align: left;
   vertical-align: middle;
-  padding-right: 12px;
+  padding-left: 12px;
 }
 
 div.header div.github_link a {
