@@ -78,10 +78,10 @@ div.header div.github_link a:hover {
 
 div.header div.key {
   width: 75px;
-  opacity: 0.7;
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAWCAYAAACosj4+AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAlElEQVRIx2NgGAWjYPACISCeCMTngPgzlJ4IFac7cADiF0D8Hwt+AZWna8jgcgyyo+gWUhPRLH8IxC5AzAOlH0LFJ5JiaD0BH5KCXdDMdoGKnyPFQf+piHnQzOaBin8eKAdRJYTQo61+oNMQJQ6iSS7DZdCAlUOUOojqJTW6A8hxEFXBoHNQPVpCricxYY+CUTBgAABp25HelFN68gAAAABJRU5ErkJggg==");
+  opacity: 0.8;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAOCAYAAAArMezNAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAhklEQVQ4y7WTuw3AIAwFbwCqTJSCvZiBxdiBjp4BSOMCWeGfPMmyZNDxZBvY0wV4IABZspf6tm4gAeUlkpxvOW1Ba/iyc68gEbCAkRyl7gHcwEEvrHrYSj1wAC3itJaRej4Fdx3rdriverwCXtqK1oXjPV4FT/88DZoBT+k3sFMDc4MBTukBqz6F6uzn58IAAAAASUVORK5CYII=");
   background-repeat: no-repeat;
-  background-position: 30px -2px;
+  background-position: 40px 1px;
 }
 
 div#blackout {
