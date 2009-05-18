@@ -26,7 +26,7 @@ class RSSFeed
     add_element(item, "link", link)
     add_element(item, "description", "#{source}: <#{nickname}> #{original_line}", true)
     add_element(item, "pubDate", now.rfc2822)
-    add_element(item, "author", "#{nickname}@#{netmask}")
+    add_element(item, "author", "#{nickname}!#{netmask}")
     add_element(item, "guid", Digest::MD5.hexdigest("#{link}:#{original_line}:#{nickname}:#{netmask}:#{source}:#{now.to_i}"), false, {"isPermaLink" => "false"})
     @items << item
     @items.delete_at(0) if @items.length > 32
