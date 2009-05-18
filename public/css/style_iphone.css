@@ -130,9 +130,9 @@ body {
   font: normal normal normal 14px Helvetica, sans-serif;
   border: 1px solid #555;
   -webkit-border-radius: 13px;
-  width: 230px;
+  width: 224px;
   height: 20px;
-  padding: 2px 4px;
+  padding: 2px 8px;
   margin: 8px 4px;
 }
 
