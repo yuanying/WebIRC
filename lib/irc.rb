@@ -193,7 +193,7 @@ class IRC
         when "NOTICE"
           double_arg(params) {|target, msg| @history.notice(source, target, msg)}
         when "PART"
-          double_arg(params) {|channel, msg| @history.part(source, channel, msg)}
+          double_arg(params) {|channel, msg| @history.part(source, trim(channel), msg)}
         when "PRIVMSG"
           double_arg(params) do |target, msg|
             msg = ctcp_msg(msg) do |ctcp_cmd, ctcp_param|
