@@ -16,7 +16,9 @@ class IRCHistory
   SERVER_ERROR = "*"
   CLIENT_ERROR = "!"
   MODE = "m"
-  CTCP = "c"
+  CTCP_RESPONSE = "c"
+  CTCP_REQUEST = "C"
+  CTCP_REPLY = "N"
 
   USER_OP = "@"
   USER_VOICE = "+"
@@ -45,8 +47,16 @@ class IRCHistory
     end
   end
 
-  def ctcp(source, cmd, param, response)
-    add_history(@root_log, nil, {:type => CTCP, :source => source, :cmd => cmd, :param => param, :response => response})
+  def ctcp_response(source, cmd, param, response)
+    add_history(@root_log, nil, {:type => CTCP_RESPONSE, :source => source, :cmd => cmd, :param => param, :response => response})
+  end
+
+  def ctcp_request(target, cmd, param)
+    add_history(@root_log, nil, {:type => CTCP_REQUEST, :target => target, :cmd => cmd, :param => param})
+  end
+
+  def ctcp_reply(source, cmd, param)
+    add_history(@root_log, nil, {:type => CTCP_REPLY, :source => source, :cmd => cmd, :param => param})
   end
 
   def names_list(channel, user, user_type)

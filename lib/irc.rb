@@ -137,10 +137,19 @@ class IRC
     @joined_channels.delete(channel.downcase)
   end
   
-  def privmsg(target, text, action)
-    if action
-      @history.self_action(target, text)
-      send("PRIVMSG #{target} :\001ACTION #{text}\001")
+  def privmsg(target, text, ctcp_cmd)
+    if ctcp_cmd
+      case ctcp_cmd
+      when "ACTION"
+        @history.self_action(target, text)
+      else
+        @history.ctcp_request(target, ctcp_cmd, text)
+      end
+      if text
+        send("PRIVMSG #{target} :\001#{ctcp_cmd} #{text}\001")
+      else
+        send("PRIVMSG #{target} :\001#{ctcp_cmd}\001")
+      end
     else
       @history.self_privmsg(target, text)
       send("PRIVMSG #{target} :#{text}")
@@ -191,7 +200,16 @@ class IRC
         when "NICK"
           @history.nick(source, trim(params))
         when "NOTICE"
-          double_arg(params) {|target, msg| @history.notice(source, target, msg)}
+          double_arg(params) do |target, msg|
+            case msg
+            when /^\001.*\001$/
+              ctcp_msg(msg) do |ctcp_cmd, ctcp_param|
+                @history.ctcp_reply(source, ctcp_cmd, ctcp_param)
+              end
+            else
+              @history.notice(source, target, msg)
+            end
+          end
         when "PART"
           double_arg(params) {|channel, msg| @history.part(source, trim(channel), msg)}
         when "PRIVMSG"
@@ -200,7 +218,7 @@ class IRC
               if ctcp_cmd == "ACTION"
                 @history.action(source, target, ctcp_param)
               else
-                @history.ctcp(source, ctcp_cmd, ctcp_param, response = do_ctcp(source, ctcp_cmd, ctcp_param))
+                @history.ctcp_response(source, ctcp_cmd, ctcp_param, response = do_ctcp(source, ctcp_cmd, ctcp_param))
                 send("NOTICE #{source} :\001#{response}\001")
               end
             end

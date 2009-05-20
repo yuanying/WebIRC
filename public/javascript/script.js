@@ -30,7 +30,9 @@ const SERVER            = "-"
 const SERVER_ERROR      = "*"
 const CLIENT_ERROR      = "!"
 const MODE              = "m"
-const CTCP              = "c"
+const CTCP_RESPONSE     = "c"
+const CTCP_REQUEST      = "C"
+const CTCP_REPLY        = "N"
 
 window.onresize = function() {
   update_activity_width()
@@ -142,7 +144,7 @@ function send_msg(text) {
       }
     }
   } else {
-    send_privmsg(text, false)
+    send_privmsg(text, null)
   }
 }
 
@@ -174,7 +176,7 @@ function input_command(cmd, param) {
     switch (cmd) {
       case "/ME":
       if (param) {
-        send_privmsg(param, true)
+        send_privmsg(param, "ACTION")
       }
       break
       case "/NICK":
@@ -279,10 +281,25 @@ function input_command(cmd, param) {
       case "/RAW":
       command_request(current.connection_id, param, 1)
       break
+      case "/CTCP":
+      var ctcp_request = double_arg(param)
+      if (ctcp_request) {
+        var command = double_arg(ctcp_request.remainder)
+        if (command) {
+          send_ctcp(ctcp_request.first, command.first, command.remainder)
+        } else {
+          send_ctcp(ctcp_request.first, ctcp_request.remainder, null)
+        }
+      }
+      break
       default:
       unknown_command()
     }
   }
+}
+
+function send_ctcp(target, command, param) {
+  privmsg_request(current.connection_id, target, param, command.toUpperCase())
 }
 
 function current_channel_mode_change(mode, param) {
@@ -951,8 +968,8 @@ function root_log(connection_id, line) {
     case MODE:
     irc_user_mode(connection_id, line.source, line.target, line.add_mode, line.mode_char, line.param)
     break
-    case CTCP:
-    irc_ctcp(connection_id, line.source, line.cmd, line.param, line.response)
+    case CTCP_RESPONSE:
+    irc_ctcp(connection_id, null, line.source, line.cmd, line.param, line.response)
     add_unread(connection_id, null, line.msg_id)
     break
     case JOIN:
@@ -971,7 +988,23 @@ function root_log(connection_id, line) {
     irc_client_error(connection_id, line.tag, line.params)
     add_unread(connection_id, null, line.msg_id, true)
     break
+    case CTCP_REQUEST:
+    irc_ctcp_request(connection_id, null, line.target, line.cmd, line.param)
+    add_unread(connection_id, null, line.msg_id, true)
+    break
+    case CTCP_REPLY:
+    irc_ctcp_reply(connection_id, null, line.source, line.cmd, line.param)
+    add_unread(connection_id, null, line.msg_id, true)
+    break
   }
+}
+
+function irc_ctcp_request(connection_id, target, target, ctcp_cmd, param) {
+  add_activity(connection_id, null, create_activity_span("small server source", target, "small server ctcp", "CTCP " + ctcp_cmd + " REQUEST"))
+}
+
+function irc_ctcp_reply(connection_id, source, source, ctcp_cmd, param) {
+  add_activity(connection_id, null, create_activity_span("small server source", source, "small server ctcp", "CTCP " + ctcp_cmd + " REPLY", "small server_info", param))
 }
 
 function get_unread_div(connection_id, target) {
@@ -1104,8 +1137,8 @@ function irc_client_error(connection_id, tag, params) {
   div_activity(connection_id).appendChild(create_activity_span("small server error", tag, "small server_info", params))
 }
 
-function irc_ctcp(connection_id, source, ctcp_cmd, ctcp_param, response) {
-  add_activity(connection_id, undefined, create_activity_span("small server source", source, "small server ctcp", "CTCP " + ctcp_cmd, "small server_info", "Response: " + response))
+function irc_ctcp(connection_id, target, source, ctcp_cmd, ctcp_param, response) {
+  add_activity(connection_id, target, create_activity_span("small server ctcp", "CTCP " + ctcp_cmd + " RESPONSE", "small server_info", response))
 }
 
 function mention_me(connection_id, text) {
@@ -1166,6 +1199,10 @@ function channel_log(connection_id, channel, line) {
     create_divider_if_necessary(connection_id, channel, false, timestamp)
     irc_quit(connection_id, channel, line.user, line.msg)
     update_user_list(connection_id, channel)
+    break
+    case CTCP_REQUEST:
+    break
+    case CTCP_REPLY:
     break
   }
 }
