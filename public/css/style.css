@@ -3,6 +3,23 @@ body {
   background-color: rgb(232, 232, 232);
 }
 
+div#disclaimer {
+  color: white;
+  background-color: rgb(116, 116, 116);
+  width: 700px;
+  padding: 8px;
+  text-shadow: black 0px 1px 1px;
+  font-size: 32px;
+  text-align: center;
+  margin: 120px auto 0px auto;
+  -moz-border-radius: 25px;
+  -webkit-border-radius: 25px;
+}
+
+div#irc_client {
+  display: none;
+}
+
 .lucidia {
   font-family: "Lucida Grande", Helvetica, "MS Trebuchet", Arial, sans-serif;
 }
@@ -533,6 +550,7 @@ div#activity span.conversation {
 }
 
 div#reference {
+  display: none;
   padding: 4px;
 }
 
@@ -634,9 +652,10 @@ div#activity div#blank {
   color: white;
 }
 
-div.shadow {
+div#shadow {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAGCAAAAAAne6vtAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAEklEQVQI12NYwiTIJAbEnEzMAAj6APNHLryNAAAAAElFTkSuQmCC");
   background-repeat: repeat-x;
   width: 100%;
   height: 6px;
+  display: none;
 }

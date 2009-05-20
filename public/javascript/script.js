@@ -765,6 +765,10 @@ function set_title(text) {
 function first_time_irc_handler(event) {
   if (request_done()) {
     irc_handler(event, true)
+    hide($("disclaimer"))
+    show($("irc_client"))
+    show($("shadow"))
+    show($("reference"))
     var stored_current = jar.get("current")
     if (stored_current && connections[stored_current.connection_id]) {
       if (!stored_current.target || connections[stored_current.connection_id].targets[stored_current.target]) {
