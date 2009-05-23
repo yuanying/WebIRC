@@ -223,7 +223,7 @@ class IRC
               end
             end
             @history.privmsg(source, target, msg) unless msg.empty?
-            msg.scan(/((https?:\/\/|www\.)[A-z0-9.\/?=+-:%@&()#]+)/i) do |link, prefix|
+            msg.scan(/((https?:\/\/|www\.)[A-z0-9.\/?=+-:%@&()#~]+)/i) do |link, prefix|
               link = "http://#{link}" if prefix =~ /^www\./i
               @rss_feed.add(link, msg, source, netmask, ((target == @history.nickname) ? "Private message" : target))
             end
