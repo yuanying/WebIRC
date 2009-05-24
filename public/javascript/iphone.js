@@ -302,7 +302,7 @@ function add_unread(connection_id, target, msg_id, highlighted) {
       div_unread.style.display = "block"
       div_unread.textContent = parseInt(div_unread.textContent) + 1
       if (highlighted) {
-        div_unread.className = "small unread_count highlighted"
+        div_unread.className = "unread_count highlighted"
       }
     }
   }
@@ -613,6 +613,7 @@ function change_to(connection_id, target) {
 
 function clear_unread(connection_id, target, update_bookmark) {
   var div_unread = connections[connection_id].targets[target].div_unread
+  div_unread.className = "unread_count"
   div_unread.style.display = "none"
   div_unread.textContent = 0
   if (update_bookmark) {
