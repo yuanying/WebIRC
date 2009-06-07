@@ -1456,7 +1456,12 @@ function div_activity(connection_id, target) {
 }
 
 function add_activity(connection_id, target, child) {
+  child.innerHTML = child.innerHTML.gsub(/([\uE00A-\uE537])/, function(match) {return emoji_img(match[1].charCodeAt(0))})
   div_activity(connection_id, target).appendChild(child)
+}
+
+function emoji_img(unicode_value) {
+  return "<img src=\"images/emoji/" + unicode_value.toString(16).toUpperCase() + ".png\" width=20px height=20px align=\"bottom\" />"
 }
 
 function join(connection_id) {
