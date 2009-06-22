@@ -270,6 +270,8 @@ class IRC
       end
     when 376 # End of MOTD
       @joined_channels.each_pair {|channel, key| send("JOIN #{channel} #{key}")}
+    when 422 # No MOTD
+      @joined_channels.each_pair {|channel, key| send("JOIN #{channel} #{key}")}
     end
     case code
     when 1..400
