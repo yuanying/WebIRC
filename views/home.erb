@@ -84,6 +84,25 @@
                 </div>
               </div>
               <div class="field_element">
+                <div class="field_name">Encoding:</div>
+                <div class="field_container">
+                  <select name="" class="encoding_select" id="encoding">
+<%
+[
+  ["Unicode (UTF-8)", "UTF-8"],
+  ["Japanease (Shift JIS)", "Shift_JIS"],
+  ["Japanease (ISO 2022-JP)", "ISO-2022-JP"]
+].each do |encoding|
+%>
+                    <option value="<%= encoding[1]%>"><%= encoding[0]%></option>
+<%
+end
+%>
+                    
+                  </select>
+                </div>
+              </div>
+              <div class="field_element">
                 <div class="field_name">Server password:</div>
                 <div class="field_container">
                   <input class="lucidia regular field_entry" type="password" name="" value="" id="password">

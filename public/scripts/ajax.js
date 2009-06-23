@@ -130,6 +130,7 @@ function new_connection() {
   new_connection["user_name"] = $("user_name").value
   new_connection["real_name"] = $("real_name").value
   new_connection["password"] = $("password").value
+  new_connection["encoding"] = $("encoding").value
   new_connection["last_read"] = last_read
   new_connection["sync"] = form_sync_object()
   if (new_connection.server != "" && new_connection.nickname != "" &&  new_connection.username != "" && new_connection.realname != "") {

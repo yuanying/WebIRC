@@ -111,6 +111,11 @@ class IRC
   end
   
   def send(text)
+    to = (@connection['encoding'] or 'utf-8')
+    begin
+      text = Iconv.conv(to, 'utf-8', text)
+    rescue
+    end
     begin
       @socket.send "#{text}\n", 0
     rescue
@@ -601,9 +606,10 @@ class IRC
   end
 
   def strip_colours_and_encode_to_utf(text)
-    text.gsub!(/(\cc\d+(?:,\d+)?|\cc|\cb|\cu|\co)/, "")
+    #text.gsub!(/(\cc\d+(?:,\d+)?|\cc|\cb|\cu|\co)/, "")
+    from = (@connection['encoding'] or 'UTF-8')
     begin
-      Iconv.conv("utf-8", "utf-8", text)
+      Iconv.conv("UTF-8", from, text)
     rescue
       Iconv.conv("utf-8//ignore", "ISO-8859-1", text)
     end

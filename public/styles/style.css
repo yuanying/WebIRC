@@ -635,6 +635,11 @@ div.activity_container input.field_entry {
   margin: 4px 4px 4px 12px;
 }
 
+div.activity_container select.encoding_select {
+  padding: 2px;
+  margin: 4px 4px 4px 12px;
+}
+
 div.activity_container input.field_entry.narrow {
   width: 50px;
 }
