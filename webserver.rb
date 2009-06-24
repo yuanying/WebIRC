@@ -84,7 +84,7 @@ helpers do
 end
 
 
-get "/", :agent => /Apple.*Mobile.*Safari/ do
+get "/", :agent => /iPhone.*Apple.*Mobile/ do
   protected!
   erb :home_iphone
 end
