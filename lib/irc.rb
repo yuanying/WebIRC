@@ -38,7 +38,8 @@ class IRC
       send("NICK #{@connection["nickname"]}")
       send("USER #{@connection["user_name"]} #{user_mask} * :#{@connection["real_name"]}")
       loop do
-          ready = select([@socket, $stdin], nil, nil, nil)
+          # ready = select([@socket, $stdin], nil, nil, nil)
+          ready = select([@socket], nil, nil, nil)
           next unless ready
           for msg in ready[0]
               if msg == $stdin then
