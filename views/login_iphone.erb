@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+            "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <link rel="apple-touch-icon" href="images/touch-icon.png" />
+  <meta content="user-scalable=no, initial-scale=1.0, width=device-width" name="viewport">
+  <title>Login: WebIRC</title>
+  <link rel="stylesheet" href="styles/style_iphone.css" type="text/css" media="screen" charset="utf-8">
+  <script type="text/javascript" charset="utf-8">
+  <!--//
+  function check_login() {
+    <% unless request.cookies['u'].nil? and request.cookies['u'].nil? %>
+    alert('Incorrect login or password.');
+    <% end %>
+  }
+  //-->
+  </script>
+</head>
+
+<body onload='check_login();'>
+  <div id="viewport">
+    <div id="main_view">
+      <div id="connections_view">
+        <div class="header">
+          Login: WebIRC
+        </div>
+        <div id="login_form">
+          <form method='post'>
+            <div class='target_header'><label>User name:</label></div>
+            <div class='target'><input type='text' name='username' value='<%= request.cookies['u'] %>' /></div>
+            <div class='target_header'><label>Password:</label></div>
+            <div class='target'><input type='password' name='password' value='' /></div>
+            <div class='input_container'>
+              <p class='login_para'><input type='submit' value='Login' />
+              <input type='reset' /></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
