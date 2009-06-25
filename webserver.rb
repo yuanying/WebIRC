@@ -245,8 +245,9 @@ get "/login" do
 end
 
 post "/login" do
-  response.set_cookie('u', params['username'])
-  response.set_cookie('p', encrypt(params['password']))
+  expire_date = Time.now + 2 * 7 * 24 * 60 * 60
+  response.set_cookie('u', :value => params['username'], :expires => expire_date)
+  response.set_cookie('p', :value => encrypt(params['password']), :expires => expire_date)
   
   redirect request.env['SCRIPT_NAME'] + '/'
 end
