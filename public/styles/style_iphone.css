@@ -110,7 +110,7 @@ body {
 
 #activity {
   width: 320px;
-  height: 300px;
+/*  height: 300px;*/
   overflow: auto;
 }
 
