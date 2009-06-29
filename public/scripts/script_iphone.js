@@ -239,7 +239,7 @@ function update_read_count(connection_id, msg_id) {
 
 function scroll_if_necessary(connection_id, target) {
   if (current.connection_id == connection_id && current.target == target) {
-    document.body.scrollTop = document.body.scrollHeight;
+    setTimeout(scrollTo, 500, 0, document.body.scrollHeight - 416);
     div_activity_info.textContent = "Last activity: " + timestamp_long(connections[connection_id].targets[target].last_activity)
   }
 }
