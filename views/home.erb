@@ -89,12 +89,10 @@
                   <select name="" class="encoding_select" id="encoding">
 <%
 [
-  ["Unicode (UTF-8)", "UTF-8"],
-  ["Japanease (Shift JIS)", "Shift_JIS"],
-  ["Japanease (ISO 2022-JP)", "ISO-2022-JP"],
-  # ["Japanease (ISO 2022-JP-1)", "ISO-2022-JP-1"],
-  ["Japanease (ISO 2022-JP-2)", "ISO-2022-JP-2"],
-  ["Japanease (ISO 2022-JP-3)", "ISO-2022-JP-3"]
+  ["Unicode (UTF-8)",         "UTF-8"],
+  ["Japanease (Shift JIS)",   "Shift_JIS"],
+  ["Japanease (EUC-JP)",      "EUC-JP"],
+  ["Japanease (ISO 2022-JP)", "ISO-2022-JP-2"]
 ].each do |encoding|
 %>
                     <option value="<%= encoding[1]%>"><%= encoding[0]%></option>
