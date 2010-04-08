@@ -6,9 +6,9 @@ require "sinatra"
 require "json"
 require 'digest/sha1'
 
-mime :json, "application/json"
-mime :rss, "application/rss+xml"
-mime :raw, "application/octet-stream"
+mime_type :json, "application/json"
+mime_type :rss, "application/rss+xml"
+mime_type :raw, "application/octet-stream"
 
 IPHONE_USER_AGENT = /iPhone.*Apple.*Mobile/
 
